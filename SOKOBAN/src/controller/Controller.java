@@ -6,58 +6,59 @@ import java.util.concurrent.TimeUnit;
 
 public class Controller {
 
-    private BlockingQueue<SokobanCommand> queue = null;
-    private boolean stop = false;
+	private BlockingQueue<SokobanCommand> queue = null;
+	private boolean stop = false;
 
-    public Controller() {
+	public Controller() {
 
-	queue = new ArrayBlockingQueue<SokobanCommand>(15);
-    }
-
-    public void insertCommand(SokobanCommand cmd) {
-
-	try {
-	    queue.put(cmd);
-	} catch (InterruptedException e) {
-	    // TODO Auto-generated catch block
-	    e.printStackTrace();
+		queue = new ArrayBlockingQueue<SokobanCommand>(15);
 	}
-    }
 
-    public void start() {
+	public void insertCommand(SokobanCommand cmd) {
 
-	Thread thread = new Thread(new Runnable() {
+		try {
+			queue.put(cmd);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
 
-	    @Override
-	    public void run() {
-		while (!stop) {
-		    try {
+	public void start() {
 
-			SokobanCommand cmd = queue.poll(1, TimeUnit.SECONDS);
+		Thread thread = new Thread(new Runnable() {
 
-			if (cmd != null) {
+			@Override
+			public void run() {
+				while (!stop) {
+					try {
 
-			    cmd.execute();
+						SokobanCommand cmd = queue.poll(1, TimeUnit.SECONDS);
+
+						if (cmd != null) {
+
+							cmd.execute();
+
+						}
+
+					} catch (InterruptedException e) { // TODO Auto-generated
+						// catch block
+						e.printStackTrace();
+					}
+				}
+
 			}
 
-		    } catch (InterruptedException e) { // TODO Auto-generated
-						       // catch block
-			e.printStackTrace();
-		    }
-		}
+		});
 
-	    }
+		thread.start();
 
-	});
+	}
 
-	thread.start();
+	public void stop() {
 
-    }
+		stop = true;
 
-    public void stop() {
-
-	stop = true;
-
-    }
+	}
 
 }

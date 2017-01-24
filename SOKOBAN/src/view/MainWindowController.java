@@ -8,22 +8,59 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 import common.Level;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
 
-public class MainWindowController extends Observable implements Initializable {
+public class MainWindowController extends Observable implements Initializable, View {
 
 	char[][] levelData;
 
 	@FXML
-	LevelDisplayer levelDisplayer;
+	LevelDisplayer levelDisplayer = new LevelDisplayer();
 
 	private List<String> params;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 		levelDisplayer.setLevelData(levelData);
+		// levelDisplayer.requestFocus();
+		levelDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> levelDisplayer.requestFocus());
+		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent event) {
+				params = new LinkedList<String>();
+				params.add("Move");
+
+				switch (event.getCode())
+
+				{
+				case UP:
+					params.add("up");
+					break;
+				case DOWN:
+					params.add("down");
+					break;
+				case LEFT:
+					params.add("left");
+					break;
+				case RIGHT:
+					params.add("right");
+					break;
+
+				default:
+					break;
+
+				}
+
+				setChanged();
+				notifyObservers(params);
+			}
+		});
 
 	}
 
@@ -32,8 +69,6 @@ public class MainWindowController extends Observable implements Initializable {
 	}
 
 	public void start() {
-
-		System.out.println("start");
 
 	}
 
@@ -69,9 +104,20 @@ public class MainWindowController extends Observable implements Initializable {
 	}
 
 	public void Display(Level myLevel) {
-		LevelDisplayer displayer = new LevelDisplayer();
-		displayer.setLevelData(myLevel.getCharMat());
-		displayer.redraw();
+
+		levelDisplayer.setLevelData(myLevel.getCharMat());
+
+	}
+
+	@Override
+	public void DisplayMess(String s) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void stop() {
+		// TODO Auto-generated method stub
 
 	}
 

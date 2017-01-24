@@ -23,7 +23,7 @@ public class LoadLevelFactory {
 
     }
 
-    public Level setFile(String path) {
+    public Level toFile(String path) {
 
 	Level myLevel = new Level();
 	String[] args = path.split("\\.");

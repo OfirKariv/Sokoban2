@@ -41,13 +41,7 @@
    <left>
       <VBox BorderPane.alignment="CENTER">
          <children>
-            <Button mnemonicParsing="false" onAction="#start" prefHeight="25.0" prefWidth="64.0" text="Start">
-               <VBox.margin>
-                  <Insets />
-               </VBox.margin>
-            </Button>
-            <Button mnemonicParsing="false" prefHeight="25.0" prefWidth="64.0" text="Stop" />
-         </children>
+           </children>
          <BorderPane.margin>
             <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
          </BorderPane.margin>
@@ -61,6 +55,6 @@
       </HBox>
    </bottom>
    <center>
-      <LevelDisplayer fx:id="levelDisplayer" height="420.0" width="405.0" BorderPane.alignment="CENTER" floorFileName="./resources/floor.jpg" wallFileName="./resources/wall2.jpg" boxFileName="./resources/box.png" charaFileName="./resources/char.gif" targetFileName="./resources/target.gif"  />
+      <LevelDisplayer fx:id="levelDisplayer" height="410.0" width="580.0" BorderPane.alignment="CENTER" floorFileName="./resources/floor.jpg" wallFileName="./resources/wall2.jpg" boxFileName="./resources/box.png" charaFileName="./resources/char.gif" targetFileName="./resources/target.gif"  />
    </center>
 </BorderPane>

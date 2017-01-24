@@ -83,6 +83,7 @@ public class LevelDisplayer extends Canvas {
 			double W = getWidth();
 			double H = getHeight();
 			double w = W / levelData[0].length;
+
 			double h = H / levelData.length;
 			GraphicsContext gc = getGraphicsContext2D();
 			Image box = null;
