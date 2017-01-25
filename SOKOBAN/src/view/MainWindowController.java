@@ -112,7 +112,6 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void ExitFile() {
 
-		//
 		params = new LinkedList<String>();
 		params.add("Exit");
 		setParams(params);

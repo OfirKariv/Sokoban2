@@ -8,15 +8,23 @@ import java.net.SocketTimeoutException;
 
 public class Server {
 
-	//private ServerSocket server=new ServerSocket(3000);
-	/*
-	 * server.setSoTimeout(1000); try{ Socket aClient=server.accept(); //
-	 * blocking call InputStream inFromClient=aClient.getInputStream();
-	 * OutputStream outToClient=aClient.getOutputStream(); // interact (read &
-	 * write) with the client according to protocol inFromClient.close();
-	 * outToClient.close(); aClient.close(); server.close(); }
-	 * 
-	 * catch (SocketTimeoutException e) {/*...
-	 */
+	public void runServer() throws Exception {
+
+		ServerSocket server = new ServerSocket(8000);
+		server.setSoTimeout(1000);
+		try {
+			Socket aClient = server.accept();
+			InputStream inFromClient = aClient.getInputStream();
+			OutputStream outToClient = aClient.getOutputStream();
+			// interact (read & write) with the client according to protocol
+			inFromClient.close();
+			outToClient.close();
+			aClient.close();
+			server.close();
+		} catch (SocketTimeoutException e) {
+			e.printStackTrace();
+		}
+
+	}
 
 }
