@@ -93,8 +93,21 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void saveFile() {
 
+		params = new LinkedList<String>();
+		FileChooser fc = new FileChooser();
+		fc.setTitle("Save file");
+		fc.setInitialDirectory(new File("./resources"));
+		
+		// fc.setSelectedExtensionFilter(filter); add only xml, txt, obj files
+		File chosen = fc.showSaveDialog(null);
 		System.out.println("save");
-
+		if (chosen != null) {
+			params.add("Save");
+			params.add(chosen.getAbsolutePath());
+			setParams(params);
+			setChanged();
+			notifyObservers(params);
+		}
 	}
 
 	public void ExitFile() {
