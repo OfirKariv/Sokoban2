@@ -1,95 +1,90 @@
 package view;
 
-import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.Scanner;
 
 import common.Level;
-import controller.SokobanCommand;
 
 public class CLI extends Observable implements View {
 
-    private int relevantPlayer;
-    private HashMap<String, SokobanCommand> invoke;
-    private boolean stop = false;
+	@SuppressWarnings("unused")
+	private boolean stop = false;
 
-    public CLI() {
-//
-	relevantPlayer = 0;
+	public CLI() {
 
-    }
+	}
 
-    /**
-     * initialzer
-     * 
-     * @param policy
-     * @param displayer
-     */
+	/**
+	 * initialzer
+	 * 
+	 * @param policy
+	 * @param displayer
+	 */
 
-    @SuppressWarnings("resource")
-    /**
-     * Game manager - type work exactly as said. Move example: Move up Load Save
-     * example - Load c:/dir/file.txt
-     */
-    public void start() {
-	Scanner in = new Scanner(System.in);
-	Thread thread = new Thread(new Runnable() {
+	@SuppressWarnings("resource")
+	/**
+	 * Game manager - type work exactly as said. Move example: Move up Load Save
+	 * example - Load c:/dir/file.txt
+	 */
+	public void start() {
+		Scanner in = new Scanner(System.in);
+		Thread thread = new Thread(new Runnable() {
 
-	    @Override
-	    public void run() {
-		System.out.println("****Welcome to SoKoBan!****:");
-		System.out.println("****Please choose option:****:");
-		System.out.println("Load");
-		System.out.println("Display");
-		System.out.println("Move {up,down,left,right}:");
-		System.out.println("Save");
-		System.out.println("Exit\n");
-		for (;;) {
+			@Override
+			public void run() {
+				System.out.println("****Welcome to SoKoBan!****:");
+				System.out.println("****Please choose option:****:");
+				System.out.println("Load");
+				System.out.println("Display");
+				System.out.println("Move {up,down,left,right}:");
+				System.out.println("Save");
+				System.out.println("Exit\n");
+				for (;;) {
 
-		    String[] sa;
-		    String commandline;
+					String[] sa;
+					String commandline;
 
-		    System.out.println("Please choose option:");
+					System.out.println("Please choose option:");
 
-		    commandline = in.nextLine();
+					commandline = in.nextLine();
 
-		    sa = commandline.split(" ");
+					sa = commandline.split(" ");
 
-		    List<String> params = new LinkedList<String>();
+					List<String> params = new LinkedList<String>();
 
-		    for (String s : sa) {
-			params.add(s);
-		    }
+					for (String s : sa) {
+						params.add(s);
+					}
 
-		    setChanged();
-		    notifyObservers(params);
-		}
-	    }
-	});
-	thread.start();
-    }
+					setChanged();
+					notifyObservers(params);
+				}
+			}
+		});
+		thread.start();
+	}
 
-    @Override
-    public void Display(Level myLevel) {
+	@Override
+	public void Display(Level myLevel) {
 
-	TxtDisplayer dis = new TxtDisplayer();
-	dis.display(myLevel.getCharMat());
+		TxtDisplayer dis = new TxtDisplayer();
+		dis.display(myLevel.getCharMat());
 
-    }
+	}
 
-    @Override
-    public void DisplayMess(String s) {
-	System.out.println(s);
+	@Override
+	public void DisplayMess(String s) {
+		System.out.println(s);
 
-    }
+	}
 
-    public void stop() {
-	stop = true;
-	System.exit(0);
+	public void stop() {
+		stop = true;
+		System.exit(0);
 
-    }
+	}
 
 }
 

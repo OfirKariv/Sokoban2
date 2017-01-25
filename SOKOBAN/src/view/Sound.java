@@ -22,13 +22,15 @@ public class Sound {
 
 	public static void music() {
 
-		AudioPlayer BGP = AudioPlayer.player;
+		AudioPlayer MGP = AudioPlayer.player;
 		AudioStream BGM;
 		AudioData MD;
 		ContinuousAudioDataStream loop = null;
 
 		try {
-			BGM = new AudioStream(new FileInputStream("beatles.wav"));
+			BGM = new AudioStream(new FileInputStream("./music/test.wav"));
+			MD = BGM.getData();
+			loop = new ContinuousAudioDataStream(MD);
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -36,6 +38,8 @@ public class Sound {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+
+		MGP.start(loop);
 
 	}
 
