@@ -95,7 +95,7 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		params = new LinkedList<String>();
 		FileChooser fc = new FileChooser();
-		fc.setTitle("Open file");
+		fc.setTitle("Save file");
 		fc.setInitialDirectory(new File("./resources"));
 		
 		// fc.setSelectedExtensionFilter(filter); add only xml, txt, obj files
