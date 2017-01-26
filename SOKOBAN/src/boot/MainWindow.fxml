@@ -11,6 +11,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 <?import view.LevelDisplayer?>
+<?import javafx.scene.media.MediaView?>
 
 
 
@@ -55,6 +56,9 @@
       </HBox>
    </bottom>
    <center>
+       <MediaView fx:id="mv" fitHeight="400.0" fitWidth="400.0" BorderPane.alignment="CENTER" />
       <LevelDisplayer fx:id="levelDisplayer" height="410.0" width="580.0" BorderPane.alignment="CENTER" floorFileName="./resources/floor.jpg" wallFileName="./resources/wall2.jpg" boxFileName="./resources/box.png" charaFileName="./resources/char.gif" targetFileName="./resources/target.gif"  />
+    
    </center>
+
 </BorderPane>

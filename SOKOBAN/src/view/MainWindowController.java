@@ -12,22 +12,31 @@ import java.util.Observable;
 import java.util.ResourceBundle;
 
 import common.Level;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaView;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 public class MainWindowController extends Observable implements Initializable, View {
 
 	char[][] levelData;
+	Boolean isCompleted = false;
 
 	@FXML
 	LevelDisplayer levelDisplayer = new LevelDisplayer();
+	@FXML
+	private MediaView mv;
+	private MediaPlayer mp;
+	private Media me;
+	private Stage stage;
 
 	private List<String> params;
 	private HashMap<String, String> keyHM;
@@ -36,8 +45,8 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void initialize(URL location, ResourceBundle resources) {
 
 		levelDisplayer.setLevelData(levelData);
+		setMusic();
 		setKeys();
-		// levelDisplayer.requestFocus();
 		levelDisplayer.addEventFilter(MouseEvent.ANY, (e) -> levelDisplayer.requestFocus());
 		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
@@ -50,6 +59,15 @@ public class MainWindowController extends Observable implements Initializable, V
 				notifyObservers(params);
 			}
 		});
+
+	}
+
+	public void setMusic() {
+		String path = new File("./music/Beat.mp3").getAbsolutePath();
+		me = new Media(new File(path).toURI().toString());
+		mp = new MediaPlayer(me);
+		mv.setMediaPlayer(mp);
+		mp.setAutoPlay(true);
 
 	}
 
@@ -83,9 +101,9 @@ public class MainWindowController extends Observable implements Initializable, V
 		params = new LinkedList<String>();
 		FileChooser fc = new FileChooser();
 		fc.setTitle("Open file");
-		fc.setInitialDirectory(new File("./resources"));
+		fc.setInitialDirectory(new File("./levelsExample"));
 		// fc.setSelectedExtensionFilter(filter); add only xml, txt, obj files
-		File chosen = fc.showOpenDialog(null);
+		File chosen = fc.showOpenDialog(stage);
 		if (chosen != null) {
 			params.add("Load");
 			params.add(chosen.getAbsolutePath());
@@ -118,11 +136,7 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void ExitFile() {
 
-		params = new LinkedList<String>();
-		params.add("Exit");
-		setParams(params);
-		setChanged();
-		notifyObservers(params);
+		stop();
 
 	}
 
@@ -140,8 +154,25 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	@Override
 	public void stop() {
-		// TODO Auto-generated method stub
+		params = new LinkedList<String>();
+		params.add("Exit");
+		setParams(params);
+		setChanged();
+		notifyObservers(params);
+		Platform.exit();
 
+	}
+
+	public void setStage(Stage stage) {
+		this.stage = stage;
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+
+			@Override
+			public void handle(WindowEvent event) {
+				stop();
+
+			}
+		});
 	}
 
 }

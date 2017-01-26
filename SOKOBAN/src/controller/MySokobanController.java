@@ -11,55 +11,54 @@ import view.View;
 
 public class MySokobanController implements Observer {
 
-    private Model model;
-    private View view;
-    private Controller controller;
-    private Map<String, Command> invoke;
+	private Model model;
+	private View view;
+	private Controller controller;
+	private Map<String, Command> invoke;
 
-    public MySokobanController(Model model, View view) {
-	this.model = model;
-	this.view = view;
-	initCommands(); // creates HashMap
-	controller = new Controller();
-	controller.start();
-    }
-
-    protected void initCommands() {
-	invoke = new HashMap<String, Command>();
-	invoke.put("Display", new DisplayCommand(model, view));
-	invoke.put("Move", new MoveCommand(model));
-	invoke.put("Load", new LoadCommand(model));
-	invoke.put("Exit", new ExitCommand());
-	invoke.put("Save", new SaveCommand(model));
-    }
-
-    public void update(Observable o, Object arg) {
-
-	LinkedList<String> params = (LinkedList<String>) arg;
-	String commandKey = params.removeFirst();
-	SokobanCommand c = (SokobanCommand) invoke.get(commandKey);
-
-	if (c == null) {
-
-	    view.DisplayMess("Invalid input :( ");
-	    return;
+	public MySokobanController(Model model, View view) {
+		this.model = model;
+		this.view = view;
+		initCommands(); // creates HashMap
+		controller = new Controller();
+		controller.start();
 	}
-	c.setParams(params);
-	controller.insertCommand(c);
 
+	protected void initCommands() {
+		invoke = new HashMap<String, Command>();
+		invoke.put("Display", new DisplayCommand(model, view));
+		invoke.put("Move", new MoveCommand(model));
+		invoke.put("Load", new LoadCommand(model));
+		invoke.put("Exit", new ExitCommand());
+		invoke.put("Save", new SaveCommand(model));
+	}
 
-    }
+	public void update(Observable o, Object arg) {
 
-    public class ExitCommand extends SokobanCommand {
+		LinkedList<String> params = (LinkedList<String>) arg;
+		String commandKey = params.removeFirst();
+		SokobanCommand c = (SokobanCommand) invoke.get(commandKey);
 
-	@Override
-	public void execute() {
-	    System.out.println("Exiting..");
+		if (c == null) {
 
-	    controller.stop();
-	    view.stop();
+			view.DisplayMess("Invalid input :( ");
+			return;
+		}
+		c.setParams(params);
+		controller.insertCommand(c);
 
 	}
 
-    }
+	public class ExitCommand extends SokobanCommand {
+
+		@Override
+		public void execute() {
+			System.out.println("Exiting..");
+
+			controller.stop();
+			view.stop();
+
+		}
+
+	}
 }
