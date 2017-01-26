@@ -31,10 +31,7 @@ public class MyModel extends Observable implements Model {
 	public void load(String path) {
 
 		LoadLevelFactory lvlLoad = new LoadLevelFactory();
-		System.out.println(lvlLoad.toString());
-		
 		setLevel(lvlLoad.toFile(path));
-
 		this.setChanged();
 		LinkedList<String> params = new LinkedList<String>();
 		params.add("Display");

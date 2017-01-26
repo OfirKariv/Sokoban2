@@ -1,16 +1,23 @@
 package view;
 
+import java.beans.XMLDecoder;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.net.URL;
+import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 import java.util.ResourceBundle;
 
 import common.Level;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.FileChooser;
@@ -23,44 +30,43 @@ public class MainWindowController extends Observable implements Initializable, V
 	LevelDisplayer levelDisplayer = new LevelDisplayer();
 
 	private List<String> params;
+	private HashMap<String, String> keyHM;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
-		levelDisplayer.setLevelData(levelData);
-		// levelDisplayer.requestFocus();
-		levelDisplayer.addEventFilter(MouseEvent.MOUSE_CLICKED, (e) -> levelDisplayer.requestFocus());
-		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
 
+		levelDisplayer.setLevelData(levelData);
+		setKeys();
+		// levelDisplayer.requestFocus();
+		levelDisplayer.addEventFilter(MouseEvent.ANY, (e) -> levelDisplayer.requestFocus());
+		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				params = new LinkedList<String>();
 				params.add("Move");
-
-				switch (event.getCode())
-
-				{
-				case UP:
-					params.add("up");
-					break;
-				case DOWN:
-					params.add("down");
-					break;
-				case LEFT:
-					params.add("left");
-					break;
-				case RIGHT:
-					params.add("right");
-					break;
-
-				default:
-					break;
-
-				}
+				params.add(keyHM.get(event.getCode().toString()));
 
 				setChanged();
 				notifyObservers(params);
 			}
 		});
+
+	}
+
+	public void setKeys() {
+		keyHM = new HashMap<String, String>();
+		try {
+
+			XMLDecoder keys = new XMLDecoder(new FileInputStream(new File("./setkey/keys.xml")));
+			keyHM.put((String) keys.readObject(), "up");
+			keyHM.put((String) keys.readObject(), "down");
+			keyHM.put((String) keys.readObject(), "left");
+			keyHM.put((String) keys.readObject(), "right");
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 
 	}
 
