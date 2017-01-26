@@ -3,6 +3,8 @@ package view;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 
+import javax.swing.plaf.metal.MetalBorders.Flush3DBorder;
+
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
@@ -12,6 +14,7 @@ import javafx.scene.image.Image;
 public class LevelDisplayer extends Canvas {
 
 	char[][] levelData;
+	private StringProperty firstFileName;
 	private StringProperty wallFileName;
 	private StringProperty boxFileName;
 	private StringProperty targetFileName;
@@ -19,7 +22,7 @@ public class LevelDisplayer extends Canvas {
 	private StringProperty floorFileName;
 
 	public LevelDisplayer() {
-
+		firstFileName = new SimpleStringProperty();
 		wallFileName = new SimpleStringProperty();
 		boxFileName = new SimpleStringProperty();
 		targetFileName = new SimpleStringProperty();
@@ -35,6 +38,10 @@ public class LevelDisplayer extends Canvas {
 	public void setLevelData(char[][] levelData) {
 		this.levelData = levelData;
 		redraw();
+	}
+
+	public String getFirstFileName() {
+		return firstFileName.get();
 	}
 
 	public String getWallFileName() {
@@ -57,6 +64,10 @@ public class LevelDisplayer extends Canvas {
 		return floorFileName.get();
 	}
 
+	public void setFirstFileName(String firstFileName) {
+		this.firstFileName.set(firstFileName);
+	}
+
 	public void setWallFileName(String wallFileName) {
 		this.wallFileName.set(wallFileName);
 	}
@@ -77,6 +88,22 @@ public class LevelDisplayer extends Canvas {
 		this.floorFileName.set(floorFileName);
 	}
 
+	public void setFirstScreen() {
+
+		GraphicsContext aa = getGraphicsContext2D();
+		try {
+
+			Image image = new Image(new FileInputStream(getFirstFileName()));
+			aa.drawImage(image, 0, 0, getWidth(), getHeight());
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+
+		}
+
+	}
+
 	public void redraw() {
 
 		if (levelData != null) {
@@ -93,11 +120,11 @@ public class LevelDisplayer extends Canvas {
 			Image target = null;
 
 			try {
-				floor = new Image(new FileInputStream(floorFileName.get()));
-				box = new Image(new FileInputStream(boxFileName.get()));
-				wall = new Image(new FileInputStream(wallFileName.get()));
-				character = new Image(new FileInputStream(charaFileName.get()));
-				target = new Image(new FileInputStream(targetFileName.get()));
+				floor = new Image(new FileInputStream(getFloorFileName()));
+				box = new Image(new FileInputStream(getBoxFileName()));
+				wall = new Image(new FileInputStream(getWallFileName()));
+				character = new Image(new FileInputStream(getCharaFileName()));
+				target = new Image(new FileInputStream(getTargetFileName()));
 
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -107,6 +134,12 @@ public class LevelDisplayer extends Canvas {
 			for (int i = 0; i < levelData.length; i++)
 				for (int j = 0; j < levelData[i].length; j++) {
 
+					try {
+						character = new Image(new FileInputStream(charaFileName.get()));
+					} catch (FileNotFoundException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 					switch (levelData[i][j]) {
 
 					case '#':

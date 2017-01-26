@@ -28,7 +28,6 @@ import javafx.stage.WindowEvent;
 public class MainWindowController extends Observable implements Initializable, View {
 
 	char[][] levelData;
-	Boolean isCompleted = false;
 
 	@FXML
 	LevelDisplayer levelDisplayer = new LevelDisplayer();
@@ -47,13 +46,16 @@ public class MainWindowController extends Observable implements Initializable, V
 		levelDisplayer.setLevelData(levelData);
 		setMusic();
 		setKeys();
+
 		levelDisplayer.addEventFilter(MouseEvent.ANY, (e) -> levelDisplayer.requestFocus());
 		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				params = new LinkedList<String>();
 				params.add("Move");
-				params.add(keyHM.get(event.getCode().toString()));
+				String direction = keyHM.get(event.getCode().toString());
+				params.add(direction);
+				levelDisplayer.setCharaFileName("./resources/" + direction + ".gif");
 
 				setChanged();
 				notifyObservers(params);
