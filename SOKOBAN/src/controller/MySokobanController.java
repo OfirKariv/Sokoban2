@@ -41,7 +41,7 @@ public class MySokobanController implements Observer {
 
 		if (c == null) {
 
-			view.DisplayMess("Invalid input :( ");
+			view.DisplayMess("UNKNOWN ERROR ");
 			return;
 		}
 		c.setParams(params);
@@ -53,7 +53,7 @@ public class MySokobanController implements Observer {
 
 		@Override
 		public void execute() {
-			System.out.println("Exiting..");
+			view.DisplayMess("Exiting..");
 
 			controller.stop();
 			view.stop();

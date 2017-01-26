@@ -1,6 +1,5 @@
 package boot;
 
-import controller.Controller;
 import controller.MySokobanController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;

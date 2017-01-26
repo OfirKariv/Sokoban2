@@ -16,6 +16,8 @@ import javafx.application.Platform;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -39,6 +41,7 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	private List<String> params;
 	private HashMap<String, String> keyHM;
+	private Alert alert;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -47,15 +50,18 @@ public class MainWindowController extends Observable implements Initializable, V
 		setMusic();
 		setKeys();
 
+		levelDisplayer.setImageHashMap();
+		levelDisplayer.setFirstScreen();
 		levelDisplayer.addEventFilter(MouseEvent.ANY, (e) -> levelDisplayer.requestFocus());
 		levelDisplayer.setOnKeyPressed(new EventHandler<KeyEvent>() {
 			@Override
 			public void handle(KeyEvent event) {
 				params = new LinkedList<String>();
 				params.add("Move");
-				String direction = keyHM.get(event.getCode().toString());
+				String direction = keyHM.getOrDefault(event.getCode().toString(), "E");
 				params.add(direction);
 				levelDisplayer.setCharaFileName("./resources/" + direction + ".gif");
+				levelDisplayer.setCharacterMovesHM(direction);
 
 				setChanged();
 				notifyObservers(params);
@@ -82,6 +88,8 @@ public class MainWindowController extends Observable implements Initializable, V
 			keyHM.put((String) keys.readObject(), "down");
 			keyHM.put((String) keys.readObject(), "left");
 			keyHM.put((String) keys.readObject(), "right");
+
+			keys.close();
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -150,12 +158,13 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	@Override
 	public void DisplayMess(String s) {
-		// TODO Auto-generated method stub
 
+		levelDisplayer.showAlert(s);
 	}
 
 	@Override
 	public void stop() {
+
 		params = new LinkedList<String>();
 		params.add("Exit");
 		setParams(params);
@@ -163,6 +172,11 @@ public class MainWindowController extends Observable implements Initializable, V
 		notifyObservers(params);
 		Platform.exit();
 
+	}
+
+	public void FinishLevel() {
+
+		System.out.println("level finished");
 	}
 
 	public void setStage(Stage stage) {

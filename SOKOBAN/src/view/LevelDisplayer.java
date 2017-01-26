@@ -2,18 +2,21 @@ package view;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-
-import javax.swing.plaf.metal.MetalBorders.Flush3DBorder;
+import java.util.HashMap;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
 
 public class LevelDisplayer extends Canvas {
 
 	char[][] levelData;
+	private HashMap<Character, Image> ImagesHM;
+	private HashMap<String, Image> CharaHM;
 	private StringProperty firstFileName;
 	private StringProperty wallFileName;
 	private StringProperty boxFileName;
@@ -28,6 +31,37 @@ public class LevelDisplayer extends Canvas {
 		targetFileName = new SimpleStringProperty();
 		charaFileName = new SimpleStringProperty();
 		floorFileName = new SimpleStringProperty();
+
+	}
+
+	public void setImageHashMap() {
+
+		ImagesHM = new HashMap<Character, Image>();
+		CharaHM = new HashMap<String, Image>();
+
+		try {
+
+			ImagesHM.put(' ', new Image(new FileInputStream(getFloorFileName())));
+			ImagesHM.put('#', new Image(new FileInputStream(getWallFileName())));
+			ImagesHM.put('@', new Image(new FileInputStream(getBoxFileName())));
+			ImagesHM.put('A', new Image(new FileInputStream(getCharaFileName())));
+			ImagesHM.put('O', new Image(new FileInputStream(getTargetFileName())));
+			CharaHM.put("up", new Image(new FileInputStream("./resources/up.gif")));
+			CharaHM.put("down", new Image(new FileInputStream("./resources/down.gif")));
+			CharaHM.put("left", new Image(new FileInputStream("./resources/left.gif")));
+			CharaHM.put("right", new Image(new FileInputStream("./resources/right.gif")));
+
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	void setCharacterMovesHM(String direction) {
+
+		ImagesHM.remove('A');
+		ImagesHM.put('A', CharaHM.get(direction));
 
 	}
 
@@ -113,67 +147,26 @@ public class LevelDisplayer extends Canvas {
 
 			double h = H / levelData.length;
 			GraphicsContext gc = getGraphicsContext2D();
-			Image box = null;
-			Image wall = null;
-			Image floor = null;
-			Image character = null;
-			Image target = null;
 
-			try {
-				floor = new Image(new FileInputStream(getFloorFileName()));
-				box = new Image(new FileInputStream(getBoxFileName()));
-				wall = new Image(new FileInputStream(getWallFileName()));
-				character = new Image(new FileInputStream(getCharaFileName()));
-				target = new Image(new FileInputStream(getTargetFileName()));
-
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-
+			gc.clearRect(0, 0, getWidth(), getHeight());
 			for (int i = 0; i < levelData.length; i++)
 				for (int j = 0; j < levelData[i].length; j++) {
-
-					try {
-						character = new Image(new FileInputStream(charaFileName.get()));
-					} catch (FileNotFoundException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-					switch (levelData[i][j]) {
-
-					case '#':
-
-						gc.drawImage(wall, j * w, i * h, w, h);
-
-						break;
-					case ' ':
-						gc.drawImage(floor, j * w, i * h, w, h);
-
-						break;
-					case '@':
-
-						gc.drawImage(box, j * w, i * h, w, h);
-
-						break;
-					case 'A':
-						gc.drawImage(floor, j * w, i * h, w, h);
-						gc.drawImage(character, j * w, i * h, w, h);
-
-						break;
-					case 'O':
-						gc.drawImage(floor, j * w, i * h, w, h);
-						gc.drawImage(target, j * w, i * h, w, h);
-
-						break;
-					default:
-						break;
-
-					}
+					gc.drawImage(ImagesHM.get(' '), j * w, i * h, w, h);
+					gc.drawImage(ImagesHM.get(levelData[i][j]), j * w, i * h, w, h);
 
 				}
 
 		}
+
+	}
+
+	public void showAlert(String s) {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Information Dialog");
+		alert.setHeaderText(null);
+		alert.setContentText(s);
+
+		alert.showAndWait();
 
 	}
 

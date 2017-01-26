@@ -7,7 +7,6 @@ import model.policy.LevelChanger;
 
 public class MoveCommand extends SokobanCommand {
 
-	private LevelChanger change = new LevelChanger();
 	private Model model;
 
 	public MoveCommand(Model model) {

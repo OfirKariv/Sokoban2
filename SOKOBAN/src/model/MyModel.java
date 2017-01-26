@@ -82,9 +82,12 @@ public class MyModel extends Observable implements Model {
 			change.pathRight(playerPos);
 
 			break;
+		case "E":
+
+			return;
 
 		default:
-			break;
+			return;
 
 		}
 
@@ -97,7 +100,10 @@ public class MyModel extends Observable implements Model {
 		this.notifyObservers(params);
 
 		if (myLevel.isComplete()) {
-			System.out.println("Level completed!");
+			params.add("Display");
+			params.add("Fin");
+			this.setChanged();
+			this.notifyObservers(params);
 
 		}
 
