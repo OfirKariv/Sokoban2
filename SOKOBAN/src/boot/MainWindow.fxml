@@ -57,7 +57,7 @@
    </bottom>
    <center>
        <MediaView fx:id="mv" fitHeight="400.0" fitWidth="400.0" BorderPane.alignment="CENTER" />
-      <LevelDisplayer fx:id="levelDisplayer" height="410.0" width="580.0" BorderPane.alignment="CENTER" firstFileName="./resources/wall2.jpg" floorFileName="./resources/floor.jpg" wallFileName="./resources/wall2.jpg" boxFileName="./resources/box.png" charaFileName="./resources/down.gif" targetFileName="./resources/target.gif"  />
+      <LevelDisplayer fx:id="levelDisplayer" height="410.0" width="580.0" BorderPane.alignment="CENTER" firstFileName="./resources/opening.jpg" floorFileName="./resources/floor.jpg" wallFileName="./resources/wall.gif" boxFileName="./resources/apple.png" charaFileName="./resources/down.PNG" targetFileName="./resources/target.png" />
     
    </center>
 

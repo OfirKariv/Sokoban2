@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
 
+import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.scene.canvas.Canvas;
@@ -46,10 +47,10 @@ public class LevelDisplayer extends Canvas {
 			ImagesHM.put('@', new Image(new FileInputStream(getBoxFileName())));
 			ImagesHM.put('A', new Image(new FileInputStream(getCharaFileName())));
 			ImagesHM.put('O', new Image(new FileInputStream(getTargetFileName())));
-			CharaHM.put("up", new Image(new FileInputStream("./resources/up.gif")));
-			CharaHM.put("down", new Image(new FileInputStream("./resources/down.gif")));
-			CharaHM.put("left", new Image(new FileInputStream("./resources/left.gif")));
-			CharaHM.put("right", new Image(new FileInputStream("./resources/right.gif")));
+			CharaHM.put("up", new Image(new FileInputStream("./resources/up.png")));
+			CharaHM.put("down", new Image(new FileInputStream("./resources/down.png")));
+			CharaHM.put("left", new Image(new FileInputStream("./resources/left.png")));
+			CharaHM.put("right", new Image(new FileInputStream("./resources/right.png")));
 
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
@@ -157,16 +158,6 @@ public class LevelDisplayer extends Canvas {
 				}
 
 		}
-
-	}
-
-	public void showAlert(String s) {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Information Dialog");
-		alert.setHeaderText(null);
-		alert.setContentText(s);
-
-		alert.showAndWait();
 
 	}
 

@@ -159,7 +159,22 @@ public class MainWindowController extends Observable implements Initializable, V
 	@Override
 	public void DisplayMess(String s) {
 
-		levelDisplayer.showAlert(s);
+		Thread thread = new Thread(new Runnable() {
+
+			@Override
+			public void run() {
+				Alert alert = new Alert(AlertType.INFORMATION);
+				alert.setTitle("Information Dialog");
+				alert.setHeaderText(null);
+				alert.setContentText(s);
+
+				alert.show();
+
+			}
+
+		});
+		Platform.runLater(thread);
+
 	}
 
 	@Override
