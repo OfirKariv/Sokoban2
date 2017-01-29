@@ -1,6 +1,9 @@
 package boot;
 
+import java.io.IOException;
+
 import controller.MySokobanController;
+import controller.server.MyClientHandler;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -44,7 +47,31 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 
-		launch(args);
+		if (args.length > 0) {
+			if (args[0].equals("--server")) {
+
+				MyClientHandler clienthnd = new MyClientHandler();// view
+				controller.server.Server server = new controller.server.Server();
+				MyModel m = new MyModel();// model
+				server.init(clienthnd, m);
+
+				MySokobanController c = new MySokobanController(m, server, clienthnd);
+				clienthnd.addObserver(server);
+				m.addObserver(c);
+				server.addObserver(c);
+				try {
+
+					server.startServer();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+		}
+
+		else
+			launch(args);
 
 	}
+
 }

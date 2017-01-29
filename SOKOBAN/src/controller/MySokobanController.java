@@ -6,6 +6,8 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
+import controller.server.ClientHandler;
+import controller.server.Server;
 import model.Model;
 import view.View;
 
@@ -15,6 +17,8 @@ public class MySokobanController implements Observer {
 	private View view;
 	private Controller controller;
 	private Map<String, Command> invoke;
+	private Server server;
+	private ClientHandler clienthnd;
 
 	public MySokobanController(Model model, View view) {
 		this.model = model;
@@ -22,6 +26,26 @@ public class MySokobanController implements Observer {
 		initCommands(); // creates HashMap
 		controller = new Controller();
 		controller.start();
+	}
+
+	public MySokobanController(Model model, Server server, View clienthnd) {///////// for
+		///////// server
+		///////// (try)
+		this.model = model;
+		this.server = server;
+		this.clienthnd = (ClientHandler) clienthnd;
+		initCommandsForServer(); // creates HashMap
+		controller = new Controller();
+		controller.start();
+	}
+
+	protected void initCommandsForServer() {
+		invoke = new HashMap<String, Command>();
+		invoke.put("Display", new DisplayCommand(model, (View) clienthnd));///////
+		invoke.put("Move", new MoveCommand(model));
+		invoke.put("Load", new LoadCommand(model));
+		invoke.put("Exit", new ExitCommand());
+		invoke.put("Save", new SaveCommand(model));
 	}
 
 	protected void initCommands() {
