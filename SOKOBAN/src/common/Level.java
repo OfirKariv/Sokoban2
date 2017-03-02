@@ -229,12 +229,15 @@ public class Level implements Serializable {
 
 		boolean onTarget;
 		int x = getStaticPattern().size();
-		int y = findSize();
+		// int y = findSize();
+		int y = getStaticPattern().get(0).size();
+
 		char[][] charDisplayer = new char[x][y];
 		int i = 0, j = 0;
 
 		for (ArrayList<GameObject> arr : getStaticPattern()) {
 			for (GameObject go : arr) {
+
 				onTarget = false;
 				GameObject temp = null;
 				if (((go instanceof Floor || go instanceof Target)) && ((getMovables().get(i).get(j)) != null))
@@ -246,8 +249,10 @@ public class Level implements Serializable {
 				}
 				if (onTarget == true)
 					charDisplayer[i][j] = '*';
-				else
+				else {
+
 					charDisplayer[i][j] = (temp.getSign());
+				}
 				j++;
 			}
 
