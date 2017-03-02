@@ -229,7 +229,6 @@ public class Level implements Serializable {
 
 		boolean onTarget;
 		int x = getStaticPattern().size();
-		// int y = findSize();
 		int y = getStaticPattern().get(0).size();
 
 		char[][] charDisplayer = new char[x][y];
@@ -262,25 +261,6 @@ public class Level implements Serializable {
 
 		return charDisplayer;
 
-	}
-
-	public int findSize() {
-
-		if (getStaticPattern() != null) {
-			int max = 0;
-			int temp = 0;
-			ArrayList<ArrayList<GameObject>> mat = getStaticPattern();
-			for (ArrayList<GameObject> arr : mat) {
-				temp = arr.size();
-				if (max < temp)
-					max = temp;
-				return max;
-
-			}
-
-		}
-
-		return 0;
 	}
 
 }
