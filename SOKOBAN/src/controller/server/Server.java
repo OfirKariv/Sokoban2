@@ -5,25 +5,21 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.net.SocketTimeoutException;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 import java.util.Observer;
 
-import com.sun.security.ntlm.Client;
-
-import controller.MySokobanController;
-import model.Model;
 import model.MyModel;
-import model.policy.MySokobanPolicy;
-import model.policy.Policy;
 
 public class Server extends Observable implements Observer {
 
-	MyClientHandler client = new MyClientHandler();
-	MyModel model = new MyModel();
-	int port = 5070;
+	private MyClientHandler clientHndlr = new MyClientHandler();
+	private MyModel model = null;
+	private List<String> params = null;
+	private int port = 5070;
 
-	public void init(MyClientHandler client, MyModel model) {
-		this.client = client;
+	public void init(MyClientHandler clientHndlr, MyModel model) {
+		this.clientHndlr = clientHndlr;
 		this.model = model;
 	}
 
@@ -39,7 +35,7 @@ public class Server extends Observable implements Observer {
 					try {
 						int g = countObservers();//
 						System.out.println(g);
-						client.handleClient(aClient.getInputStream(), aClient.getOutputStream());
+						clientHndlr.handleClient(aClient.getInputStream(), aClient.getOutputStream());
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -56,12 +52,13 @@ public class Server extends Observable implements Observer {
 	}
 
 	@Override
-	public void update(Observable o, Object arg) {
+	public void update(Observable o, Object params) {
 		System.out.println("im in server update");
-		LinkedList<String> params = (LinkedList<String>) arg;
+		this.params = (LinkedList<String>) params;
 		System.out.println(params);
 		setChanged();
-		notifyObservers(params);
+		notifyObservers(this.params);
 
 	}
+
 }

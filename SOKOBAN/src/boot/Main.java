@@ -25,7 +25,7 @@ public class Main extends Application {
 			MainWindowController view = loader.getController();
 			view.setStage(primaryStage);
 
-			Scene scene = new Scene(root, 600, 600);
+			Scene scene = new Scene(root, 600, 500);
 			scene.getStylesheets().add(getClass().getResource("application.css").toExternalForm());
 			primaryStage.setScene(scene);
 			init(view);
@@ -50,15 +50,15 @@ public class Main extends Application {
 		if (args.length > 0) {
 			if (args[0].equals("--server")) {
 
-				MyClientHandler clienthnd = new MyClientHandler();// view
+				MyClientHandler clientHndlr = new MyClientHandler();// view
 				controller.server.Server server = new controller.server.Server();
-				MyModel m = new MyModel();// model
-				server.init(clienthnd, m);
+				MyModel model = new MyModel();// model
+				server.init(clientHndlr, model);
 
-				MySokobanController c = new MySokobanController(m, server, clienthnd);
-				clienthnd.addObserver(server);
-				m.addObserver(c);
-				server.addObserver(c);
+				MySokobanController sokoController = new MySokobanController(model, server, clientHndlr);
+				clientHndlr.addObserver(server);
+				model.addObserver(sokoController);
+				server.addObserver(sokoController);
 				try {
 
 					server.startServer();

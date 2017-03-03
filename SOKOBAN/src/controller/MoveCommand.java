@@ -17,8 +17,8 @@ public class MoveCommand extends SokobanCommand {
 	@Override
 
 	public void execute() {
-		PrintWriter outToScreen = new PrintWriter(System.out);
-		outToScreen.write("hi");
+
+		System.out.println("im in move command");
 		String direction = params.get(0);
 		model.move(direction);
 

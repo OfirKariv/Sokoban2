@@ -37,7 +37,8 @@ public class LevelDisplayer extends Canvas {
 
 	public void setImageHashMap() {
 
-		ImagesHM = new HashMap<Character, Image>();
+		ImagesHM = new HashMap<Character, Image>(); // Character as object of
+													// char. not game character.
 		CharaHM = new HashMap<String, Image>();
 
 		try {

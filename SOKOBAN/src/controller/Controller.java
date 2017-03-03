@@ -34,15 +34,14 @@ public class Controller {
 					try {
 
 						SokobanCommand cmd = queue.poll(1, TimeUnit.SECONDS);
-
+						System.out.println("Waiting..");
 						if (cmd != null) {
 
 							cmd.execute();
 
 						}
 
-					} catch (InterruptedException e) { // TODO Auto-generated
-						// catch block
+					} catch (InterruptedException e) {
 						e.printStackTrace();
 					}
 				}

@@ -40,6 +40,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	private Stage stage;
 
 	private List<String> params;
+	private List<String> filesType;
 	private HashMap<String, String> keyHM;
 	private Alert alert;
 
@@ -60,7 +61,7 @@ public class MainWindowController extends Observable implements Initializable, V
 				params.add("Move");
 				String direction = keyHM.getOrDefault(event.getCode().toString(), "E");
 				params.add(direction);
-				levelDisplayer.setCharaFileName("./resources/" + direction + ".gif");
+				levelDisplayer.setCharaFileName("./resources/" + direction + ".png");
 				levelDisplayer.setCharacterMovesHM(direction);
 
 				setChanged();
@@ -110,9 +111,12 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		params = new LinkedList<String>();
 		FileChooser fc = new FileChooser();
+		setFileType();
 		fc.setTitle("Open file");
 		fc.setInitialDirectory(new File("./levelsExample"));
-		// fc.setSelectedExtensionFilter(filter); add only xml, txt, obj files
+
+		FileChooser.ExtensionFilter fileExtensions = new FileChooser.ExtensionFilter("files", filesType);
+		fc.getExtensionFilters().add(fileExtensions);
 		File chosen = fc.showOpenDialog(stage);
 		if (chosen != null) {
 			params.add("Load");
@@ -123,6 +127,14 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		}
 
+	}
+
+	public void setFileType() {
+
+		filesType = new LinkedList<String>();
+		filesType.add("*.txt");
+		filesType.add("*.xml");
+		filesType.add("*.obj");
 	}
 
 	public void saveFile() {

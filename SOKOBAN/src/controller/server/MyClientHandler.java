@@ -29,42 +29,54 @@ public class MyClientHandler extends Observable implements ClientHandler, View {
 
 	@Override
 	public void handleClient(InputStream in, OutputStream out) {
-		try (BufferedReader inFromClient = new BufferedReader(new InputStreamReader(in));
-				PrintWriter touser = new PrintWriter(out);) {
-			init(touser);
-			menu();
-			String userReq = inFromClient.readLine();
-			Thread t1 = readfromClient(userReq);
-			Thread t2 = syncToClient(writer);
-			writer.flush();
+
+		BufferedReader inFromClient = new BufferedReader(new InputStreamReader(in));
+		PrintWriter toUser = new PrintWriter(out);
+		init(toUser);
+		menu();
+		String userReq;
+
+		Thread t1 = readfromClient(inFromClient);
+		Thread t2 = syncToClient(writer);
+		writer.flush();
+		try {
+
 			t1.join();
 			t2.join();
-			// writer.print(params);
 
-		} catch (Exception e) {
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
-		// TODO Auto-generated catch block
-
+		// writer.print(params);
 	}
 
-	public Thread readfromClient(String userReq) {
+	public Thread readfromClient(BufferedReader inFromClient) {
 
 		Thread t = new Thread(new Runnable() {
 			public void run() {
-				String[] sa;
+				String userReq = "temp";
+				try {
+					while (!userReq.equals("bye")) {
+						userReq = inFromClient.readLine();
+						String[] sa;
+						sa = userReq.split(" ");
+						LinkedList<String> params = new LinkedList<String>();
+						for (String s : sa) {
+							params.add(s);
+						}
+						System.out.println(params);
 
-				sa = userReq.split(" ");
-				LinkedList<String> params = new LinkedList<String>();
-				for (String s : sa) {
-					params.add(s);
+						setChanged();
+
+						notifyObservers(params);
+
+					}
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
-				System.out.println(params);
-
-				setChanged();
-
-				notifyObservers(params);
 			}
 		});
 		t.start();
@@ -75,7 +87,8 @@ public class MyClientHandler extends Observable implements ClientHandler, View {
 	public Thread syncToClient(PrintWriter writer) {
 		Thread t = new Thread(new Runnable() {
 			public void run() {
-				sendToClient(writer);
+
+				sendToClient();
 			}
 		});
 		t.start();
@@ -114,17 +127,18 @@ public class MyClientHandler extends Observable implements ClientHandler, View {
 			}
 			System.out.println();
 		}
-		sendToClient(writer);
+		sendToClient();
 
 	}
 
-	public void sendToClient(PrintWriter writer) {
+	public void sendToClient() {
 		while (true) {
 			try {
 				Character line = queue.take();
 				if (line != null) {
-					writer.println(line);
+					writer.print(line);
 					writer.flush();
+
 				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
@@ -141,6 +155,7 @@ public class MyClientHandler extends Observable implements ClientHandler, View {
 		writer.println("Move {up,down,left,right}:");
 		writer.println("Save");
 		writer.println("Exit\n");
+		writer.flush();
 	}
 
 	@Override

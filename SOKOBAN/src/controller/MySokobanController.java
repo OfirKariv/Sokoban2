@@ -18,7 +18,7 @@ public class MySokobanController implements Observer {
 	private Controller controller;
 	private Map<String, Command> invoke;
 	private Server server;
-	private ClientHandler clienthnd;
+	// private ClientHandler clienthnd;
 
 	public MySokobanController(Model model, View view) {
 		this.model = model;
@@ -33,21 +33,20 @@ public class MySokobanController implements Observer {
 		///////// (try)
 		this.model = model;
 		this.server = server;
-		this.clienthnd = (ClientHandler) clienthnd;
-		initCommandsForServer(); // creates HashMap
+		// this.clienthnd = (ClientHandler) clienthnd;
+		this.view = clienthnd;
+		initCommands(); // creates HashMap
 		controller = new Controller();
 		controller.start();
 	}
 
-	protected void initCommandsForServer() {
-		invoke = new HashMap<String, Command>();
-		invoke.put("Display", new DisplayCommand(model, (View) clienthnd));///////
-		invoke.put("Move", new MoveCommand(model));
-		invoke.put("Load", new LoadCommand(model));
-		invoke.put("Exit", new ExitCommand());
-		invoke.put("Save", new SaveCommand(model));
-	}
-
+	/*
+	 * protected void initCommandsForServer() { invoke = new HashMap<String,
+	 * Command>(); invoke.put("Display", new DisplayCommand(model, (View)
+	 * clienthnd));/////// invoke.put("Move", new MoveCommand(model));
+	 * invoke.put("Load", new LoadCommand(model)); invoke.put("Exit", new
+	 * ExitCommand()); invoke.put("Save", new SaveCommand(model)); }
+	 */
 	protected void initCommands() {
 		invoke = new HashMap<String, Command>();
 		invoke.put("Display", new DisplayCommand(model, view));
@@ -60,7 +59,9 @@ public class MySokobanController implements Observer {
 	public void update(Observable o, Object arg) {
 
 		LinkedList<String> params = (LinkedList<String>) arg;
+
 		String commandKey = params.removeFirst();
+
 		SokobanCommand c = (SokobanCommand) invoke.get(commandKey);
 
 		if (c == null) {
