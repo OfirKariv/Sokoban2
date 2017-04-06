@@ -78,8 +78,6 @@ public class MySokobanController implements Observer {
 
 		@Override
 		public void execute() {
-			view.DisplayMess("Exiting..");
-
 			controller.stop();
 			view.stop();
 

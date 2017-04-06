@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
+import java.util.Optional;
 import java.util.ResourceBundle;
 
 import common.Level;
@@ -18,6 +19,8 @@ import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
@@ -42,7 +45,6 @@ public class MainWindowController extends Observable implements Initializable, V
 	private List<String> params;
 	private List<String> filesType;
 	private HashMap<String, String> keyHM;
-	private Alert alert;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
@@ -172,16 +174,30 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void DisplayMess(String s) {
 
 		Thread thread = new Thread(new Runnable() {
+			Dialog dialog;
+			String message = s;
 
 			@Override
 			public void run() {
-				Alert alert = new Alert(AlertType.INFORMATION);
-				alert.setTitle("Information Dialog");
-				alert.setHeaderText(null);
-				alert.setContentText(s);
 
-				alert.show();
+				if (message == "Level Completed!") {
+					dialog = new TextInputDialog("");
+					message = "Please Enter Your Name:";
+				}
 
+				else
+					dialog = new Alert(AlertType.INFORMATION);
+
+				dialog.setTitle("Information Dialog");
+				dialog.setHeaderText(null);
+				dialog.setContentText(message);
+				// dialog.show();
+
+				Optional<String> result = dialog.showAndWait();
+				if (result.isPresent()) {
+					System.out.println("Your name: " + result.get());
+				}
+				dialog.close();
 			}
 
 		});

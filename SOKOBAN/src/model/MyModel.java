@@ -54,6 +54,13 @@ public class MyModel extends Observable implements Model {
 
 	}
 
+	///////////////////////////////
+	public void levelFinished() {
+
+		/* Work with the database */
+
+	}
+
 	@Override
 	public void move(String direction) {
 

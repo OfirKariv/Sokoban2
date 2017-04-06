@@ -34,7 +34,6 @@ public class Controller {
 					try {
 
 						SokobanCommand cmd = queue.poll(1, TimeUnit.SECONDS);
-						System.out.println("Waiting..");
 						if (cmd != null) {
 
 							cmd.execute();

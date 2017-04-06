@@ -18,7 +18,6 @@ public class MoveCommand extends SokobanCommand {
 
 	public void execute() {
 
-		System.out.println("im in move command");
 		String direction = params.get(0);
 		model.move(direction);
 

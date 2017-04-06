@@ -16,8 +16,10 @@ public class DisplayCommand extends SokobanCommand {
 	}
 
 	public void execute() {
-		if (params.size() != 0)
+		if (params.size() != 0) {
 			view.DisplayMess("Level Completed!");
+			params.remove(0);
+		}
 
 		view.Display(model.getCurrentLevel());
 
