@@ -6,6 +6,9 @@ import java.util.Observable;
 import common.Level;
 import model.data.GameCharacter;
 import model.data.Position;
+import model.db.LevelInfo;
+import model.db.User;
+import model.db.UsersData;
 import model.policy.LevelChanger;
 
 public class MyModel extends Observable implements Model {
@@ -13,6 +16,9 @@ public class MyModel extends Observable implements Model {
 	private Level myLevel = null;
 	private LevelChanger change = new LevelChanger();
 	private int relevantPlayer;
+	private User dbUser;
+	private UsersData dbUserData;
+	private LevelInfo dbLevel;
 
 	public MyModel() {
 		myLevel = new Level();
@@ -32,6 +38,8 @@ public class MyModel extends Observable implements Model {
 
 		LoadLevelFactory lvlLoad = new LoadLevelFactory();
 		setLevel(lvlLoad.toFile(path));
+		/////////////////////////////////////////
+		myLevel.setLevelName(path);
 		this.setChanged();
 		LinkedList<String> params = new LinkedList<String>();
 		params.add("Display");
@@ -115,4 +123,13 @@ public class MyModel extends Observable implements Model {
 		}
 
 	}
+
+	@Override
+	public void setDB(String name) {
+
+		dbUser = new User(name);
+		dbLevel = new LevelInfo(myLevel.getLevelName());
+
+	}
+
 }

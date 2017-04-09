@@ -17,9 +17,18 @@ public class Level implements Serializable {
 	private ArrayList<ArrayList<GeneralMovable>> movables = new ArrayList<ArrayList<GeneralMovable>>();
 	private ArrayList<GameCharacter> characters = new ArrayList<GameCharacter>();// set
 	private ArrayList<Target> targets = new ArrayList<Target>();// set
+	private String levelName = new String();
 
 	public Level() {
 
+	}
+
+	public String getLevelName() {
+		return levelName;
+	}
+
+	public void setLevelName(String levelName) {
+		this.levelName = levelName;
 	}
 
 	/**

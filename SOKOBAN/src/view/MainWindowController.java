@@ -174,34 +174,47 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void DisplayMess(String s) {
 
 		Thread thread = new Thread(new Runnable() {
-			Dialog dialog;
-			String message = s;
 
 			@Override
 			public void run() {
 
-				if (message == "Level Completed!") {
-					dialog = new TextInputDialog("");
-					message = "Please Enter Your Name:";
+				if (s == "Level Completed!") {
+					sendName();
 				}
 
-				else
-					dialog = new Alert(AlertType.INFORMATION);
+				else {
+					Alert alert = new Alert(AlertType.INFORMATION);
+					alert.setTitle("Information Dialog");
+					alert.setHeaderText(null);
+					alert.setContentText(s);
 
-				dialog.setTitle("Information Dialog");
-				dialog.setHeaderText(null);
-				dialog.setContentText(message);
-				// dialog.show();
+					alert.showAndWait();
 
-				Optional<String> result = dialog.showAndWait();
-				if (result.isPresent()) {
-					System.out.println("Your name: " + result.get());
 				}
-				dialog.close();
 			}
-
 		});
 		Platform.runLater(thread);
+
+	}
+
+	public void sendName() {
+
+		params = new LinkedList<String>();
+		Dialog dialog = new TextInputDialog("");
+		dialog.setTitle("Information Dialog");
+		dialog.setHeaderText(null);
+		dialog.setContentText("Please enter your name:");
+		// dialog.show();
+
+		Optional<String> result = dialog.showAndWait();
+		if (result.isPresent()) {
+			params.add("Db");
+			params.add(result.get());
+
+			setChanged();
+			notifyObservers(params);
+		}
+		dialog.close();
 
 	}
 

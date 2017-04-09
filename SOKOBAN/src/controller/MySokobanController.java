@@ -54,6 +54,7 @@ public class MySokobanController implements Observer {
 		invoke.put("Load", new LoadCommand(model));
 		invoke.put("Exit", new ExitCommand());
 		invoke.put("Save", new SaveCommand(model));
+		invoke.put("Db", new DBInsertCommand(model));
 	}
 
 	public void update(Observable o, Object arg) {
@@ -84,4 +85,5 @@ public class MySokobanController implements Observer {
 		}
 
 	}
+
 }
