@@ -18,9 +18,20 @@ public class Level implements Serializable {
 	private ArrayList<GameCharacter> characters = new ArrayList<GameCharacter>();// set
 	private ArrayList<Target> targets = new ArrayList<Target>();// set
 	private String levelName = new String();
+	private int steps;
 
 	public Level() {
 
+		steps = 0;
+
+	}
+
+	public int getSteps() {
+		return steps;
+	}
+
+	public void stepsJump() {
+		steps++;
 	}
 
 	public String getLevelName() {

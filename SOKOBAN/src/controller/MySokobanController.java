@@ -6,8 +6,9 @@ import java.util.Map;
 import java.util.Observable;
 import java.util.Observer;
 
-import controller.server.ClientHandler;
 import controller.server.Server;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
 import model.Model;
 import view.View;
 
@@ -19,11 +20,14 @@ public class MySokobanController implements Observer {
 	private Map<String, Command> invoke;
 	private Server server;
 	// private ClientHandler clienthnd;
+	private StringProperty countSteps;
 
 	public MySokobanController(Model model, View view) {
 		this.model = model;
 		this.view = view;
 		initCommands(); // creates HashMap
+		countSteps = new SimpleStringProperty();
+		view.bindForSteps(countSteps);
 		controller = new Controller();
 		controller.start();
 	}
@@ -70,7 +74,9 @@ public class MySokobanController implements Observer {
 			view.DisplayMess("UNKNOWN ERROR ");
 			return;
 		}
+
 		c.setParams(params);
+
 		controller.insertCommand(c);
 
 	}

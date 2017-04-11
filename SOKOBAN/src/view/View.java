@@ -1,6 +1,7 @@
 package view;
 
 import common.Level;
+import javafx.beans.property.StringProperty;
 
 public interface View {
 
@@ -12,4 +13,5 @@ public interface View {
 
 	public void stop();
 
+	public void bindForSteps(StringProperty count);
 }

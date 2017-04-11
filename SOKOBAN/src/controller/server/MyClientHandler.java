@@ -14,6 +14,7 @@ import java.util.concurrent.BlockingQueue;
 
 import common.Level;
 import controller.SokobanCommand;
+import javafx.beans.property.StringProperty;
 import view.TxtDisplayer;
 import view.View;
 
@@ -172,6 +173,12 @@ public class MyClientHandler extends Observable implements ClientHandler, View {
 
 	@Override
 	public void stop() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void bindForSteps(StringProperty count) {
 		// TODO Auto-generated method stub
 
 	}

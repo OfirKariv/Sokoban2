@@ -6,6 +6,7 @@ import java.util.Observable;
 import java.util.Scanner;
 
 import common.Level;
+import javafx.beans.property.StringProperty;
 
 public class CLI extends Observable implements View {
 
@@ -83,6 +84,12 @@ public class CLI extends Observable implements View {
 	public void stop() {
 		stop = true;
 		System.exit(0);
+
+	}
+
+	@Override
+	public void bindForSteps(StringProperty count) {
+		// TODO Auto-generated method stub
 
 	}
 

@@ -14,6 +14,7 @@ import java.util.ResourceBundle;
 
 import common.Level;
 import javafx.application.Platform;
+import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
@@ -26,6 +27,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -35,13 +37,15 @@ public class MainWindowController extends Observable implements Initializable, V
 	char[][] levelData;
 
 	@FXML
+	private Text stepsCounter;
+	@FXML
 	LevelDisplayer levelDisplayer = new LevelDisplayer();
 	@FXML
 	private MediaView mv;
 	private MediaPlayer mp;
 	private Media me;
 	private Stage stage;
-
+	private StringProperty timeCount;
 	private List<String> params;
 	private List<String> filesType;
 	private HashMap<String, String> keyHM;
@@ -245,6 +249,13 @@ public class MainWindowController extends Observable implements Initializable, V
 
 			}
 		});
+	}
+
+	@Override
+	public void bindForSteps(StringProperty count) {
+
+		stepsCounter.textProperty().bind(count);
+
 	}
 
 }

@@ -35,7 +35,6 @@ public class Controller {
 
 						SokobanCommand cmd = queue.poll(1, TimeUnit.SECONDS);
 						if (cmd != null) {
-
 							cmd.execute();
 
 						}

@@ -16,7 +16,8 @@ public class DisplayCommand extends SokobanCommand {
 	}
 
 	public void execute() {
-		if (params.size() != 0) {
+
+		if (params.size() != 0 && params.get(0) == "Fin") {
 			view.DisplayMess("Level Completed!");
 			params.remove(0);
 		}

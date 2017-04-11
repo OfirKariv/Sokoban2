@@ -69,7 +69,7 @@ public class LevelChanger {
 				}
 			}
 		}
-
+		myLevel.stepsJump();
 		path.clear();
 
 	}
