@@ -125,6 +125,13 @@ public class MyModel extends Observable implements Model {
 	}
 
 	@Override
+	public int getSteps() {
+
+		return myLevel.getSteps();
+
+	}
+
+	@Override
 	public void setDB(String name) {
 
 		dbUser = new User(name);

@@ -14,4 +14,6 @@ public interface Model {
 
 	public void move(String direction);
 
+	public int getSteps();
+
 }

@@ -17,19 +17,19 @@ public class MySokobanController implements Observer {
 	private Model model;
 	private View view;
 	private Controller controller;
+	private StringProperty countSteps;
 	private Map<String, Command> invoke;
 	private Server server;
 	// private ClientHandler clienthnd;
-	private StringProperty countSteps;
 
 	public MySokobanController(Model model, View view) {
 		this.model = model;
 		this.view = view;
-		initCommands(); // creates HashMap
 		countSteps = new SimpleStringProperty();
-		view.bindForSteps(countSteps);
+		initCommands(); // creates HashMap
 		controller = new Controller();
 		controller.start();
+		view.bindForSteps(countSteps);
 	}
 
 	public MySokobanController(Model model, Server server, View clienthnd) {///////// for
@@ -40,6 +40,8 @@ public class MySokobanController implements Observer {
 		// this.clienthnd = (ClientHandler) clienthnd;
 		this.view = clienthnd;
 		initCommands(); // creates HashMap
+		countSteps = new SimpleStringProperty();
+		view.bindForSteps(countSteps);
 		controller = new Controller();
 		controller.start();
 	}
@@ -51,10 +53,11 @@ public class MySokobanController implements Observer {
 	 * invoke.put("Load", new LoadCommand(model)); invoke.put("Exit", new
 	 * ExitCommand()); invoke.put("Save", new SaveCommand(model)); }
 	 */
-	protected void initCommands() {
+	public void initCommands() {
+
 		invoke = new HashMap<String, Command>();
 		invoke.put("Display", new DisplayCommand(model, view));
-		invoke.put("Move", new MoveCommand(model));
+		invoke.put("Move", new MoveCommand(model, countSteps));
 		invoke.put("Load", new LoadCommand(model));
 		invoke.put("Exit", new ExitCommand());
 		invoke.put("Save", new SaveCommand(model));
