@@ -3,15 +3,18 @@ package view;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.EventHandler;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyEvent;
 
 public class LevelDisplayer extends Canvas {
 
@@ -161,5 +164,15 @@ public class LevelDisplayer extends Canvas {
 		}
 
 	}
-
+	/*
+	 * public void pause() {
+	 * 
+	 * this.setOnKeyPressed(new EventHandler<KeyEvent>() {
+	 * 
+	 * @Override public void handle(KeyEvent event) {
+	 * 
+	 * } });
+	 * 
+	 * }
+	 */
 }

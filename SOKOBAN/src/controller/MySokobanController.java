@@ -18,7 +18,6 @@ public class MySokobanController implements Observer {
 	private View view;
 	private Controller controller;
 	private StringProperty countSteps;
-
 	private Map<String, Command> invoke;
 	private Server server;
 	// private ClientHandler clienthnd;

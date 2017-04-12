@@ -46,7 +46,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	private StringProperty timeProp;
 	private int sec = 0;
 	private int min = 0;
-	private int count = 0;
+	private Integer count = 0;
 	private boolean start = false;
 
 	private Timer timer;
@@ -217,6 +217,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void sendName() {
 
 		timeStop();
+
 		params = new LinkedList<String>();
 		Dialog dialog = new TextInputDialog("");
 		dialog.setTitle("Information Dialog");
@@ -228,6 +229,8 @@ public class MainWindowController extends Observable implements Initializable, V
 		if (result.isPresent()) {
 			params.add("Db");
 			params.add(result.get());
+			params.add(count.toString());
+			params.add(stepsCounter.getText());
 
 			setChanged();
 			notifyObservers(params);
@@ -289,7 +292,8 @@ public class MainWindowController extends Observable implements Initializable, V
 	}
 
 	public void timeStop() {
-		timer.cancel();
+		if (timer != null)
+			timer.cancel();
 	}
 
 	private String timeTransfer(int count) {

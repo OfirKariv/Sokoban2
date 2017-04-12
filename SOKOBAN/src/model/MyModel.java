@@ -1,6 +1,7 @@
 package model;
 
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Observable;
 
 import common.Level;
@@ -8,7 +9,7 @@ import model.data.GameCharacter;
 import model.data.Position;
 import model.db.LevelInfo;
 import model.db.User;
-import model.db.UsersData;
+import model.db.UserData;
 import model.policy.LevelChanger;
 
 public class MyModel extends Observable implements Model {
@@ -17,7 +18,7 @@ public class MyModel extends Observable implements Model {
 	private LevelChanger change = new LevelChanger();
 	private int relevantPlayer;
 	private User dbUser;
-	private UsersData dbUserData;
+	private UserData dbData;
 	private LevelInfo dbLevel;
 
 	public MyModel() {
@@ -63,9 +64,25 @@ public class MyModel extends Observable implements Model {
 	}
 
 	///////////////////////////////
-	public void levelFinished() {
+	@Override
+	public void saveToDB(List<String> params) {
+		dbData = new UserData();
+		if (params != null) {
+			for (int i = 0; i < 3; i++)
+				if (params.get(i) == null) {
+					/* TODO - add error displayer */
 
-		/* Work with the database */
+				}
+
+			String name = params.remove(0);
+			dbUser = new User(name);
+			String steps = params.remove(0);
+			dbData.setSteps(Integer.parseInt(steps));
+			String time = params.remove(0);
+			dbData.setTimeFinished(Integer.parseInt(time));
+			dbLevel = new LevelInfo(myLevel.getLevelName());
+
+		}
 
 	}
 
@@ -128,14 +145,6 @@ public class MyModel extends Observable implements Model {
 	public int getSteps() {
 
 		return myLevel.getSteps();
-
-	}
-
-	@Override
-	public void setDB(String name) {
-
-		dbUser = new User(name);
-		dbLevel = new LevelInfo(myLevel.getLevelName());
 
 	}
 

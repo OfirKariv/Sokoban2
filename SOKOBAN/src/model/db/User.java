@@ -10,8 +10,8 @@ import javax.persistence.Id;
 
 public class User {
 
-	public User(String s) {
-		setUsername(s);
+	public User(String name) {
+		setUsername(name);
 	}
 
 	@Id

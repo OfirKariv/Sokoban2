@@ -1,5 +1,7 @@
 package model;
 
+import java.util.List;
+
 import common.Level;
 
 public interface Model {
@@ -10,7 +12,7 @@ public interface Model {
 
 	public Level getCurrentLevel();
 
-	public void setDB(String name);
+	public void saveToDB(List<String> params);
 
 	public void move(String direction);
 
