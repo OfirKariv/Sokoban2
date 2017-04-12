@@ -11,9 +11,12 @@ import java.util.List;
 import java.util.Observable;
 import java.util.Optional;
 import java.util.ResourceBundle;
+import java.util.Timer;
+import java.util.TimerTask;
 
 import common.Level;
 import javafx.application.Platform;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
@@ -39,13 +42,22 @@ public class MainWindowController extends Observable implements Initializable, V
 	@FXML
 	private Text stepsCounter;
 	@FXML
+	private Text SokoTimer;
+	private StringProperty timeProp;
+	private int sec = 0;
+	private int min = 0;
+	private int count = 0;
+	private boolean start = false;
+
+	private Timer timer;
+
+	@FXML
 	LevelDisplayer levelDisplayer = new LevelDisplayer();
 	@FXML
 	private MediaView mv;
 	private MediaPlayer mp;
 	private Media me;
 	private Stage stage;
-	private StringProperty timeCount;
 	private List<String> params;
 	private List<String> filesType;
 	private HashMap<String, String> keyHM;
@@ -53,10 +65,10 @@ public class MainWindowController extends Observable implements Initializable, V
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
 
+		timeProp = new SimpleStringProperty();
 		levelDisplayer.setLevelData(levelData);
 		setMusic();
 		setKeys();
-
 		levelDisplayer.setImageHashMap();
 		levelDisplayer.setFirstScreen();
 		levelDisplayer.addEventFilter(MouseEvent.ANY, (e) -> levelDisplayer.requestFocus());
@@ -132,6 +144,7 @@ public class MainWindowController extends Observable implements Initializable, V
 			notifyObservers(params);
 
 		}
+		timeStart();
 
 	}
 
@@ -203,6 +216,7 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void sendName() {
 
+		timeStop();
 		params = new LinkedList<String>();
 		Dialog dialog = new TextInputDialog("");
 		dialog.setTitle("Information Dialog");
@@ -224,7 +238,7 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	@Override
 	public void stop() {
-
+		timeStop();
 		params = new LinkedList<String>();
 		params.add("Exit");
 		setParams(params);
@@ -255,6 +269,53 @@ public class MainWindowController extends Observable implements Initializable, V
 	public void bindForSteps(StringProperty count) {
 
 		stepsCounter.textProperty().bind(count);
+
+	}
+
+	public void timeStart() {
+		SokoTimer.textProperty().bind(timeProp);
+
+		timer = new Timer();
+		timer.scheduleAtFixedRate(new TimerTask() {
+
+			@Override
+			public void run() {
+
+				timeProp.set("" + timeTransfer(++count));
+
+			}
+		}, 0, 1000);
+
+	}
+
+	public void timeStop() {
+		timer.cancel();
+	}
+
+	private String timeTransfer(int count) {
+
+		String clock;
+		if (count % 60 > 0)
+
+		{
+			sec++;
+
+		}
+		if (count % 60 == 0)
+
+		{
+			sec = 0;
+			min++;
+		}
+		if (min < 10)
+			if (sec < 10)
+				return "0" + min + " : " + "0" + sec;
+			else
+				return "0" + min + " : " + sec;
+		else if (sec < 10)
+			return min + " : " + "0" + sec;
+		else
+			return min + " : " + sec;
 
 	}
 
