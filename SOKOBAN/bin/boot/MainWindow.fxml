@@ -13,6 +13,7 @@
 <?import view.LevelDisplayer?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
+
 <?import javafx.scene.media.MediaView?>
 
 
@@ -25,6 +26,7 @@
             <items>
                   <MenuItem mnemonicParsing="false" onAction="#openFile" text="Open" />
                   <MenuItem mnemonicParsing="false" onAction="#saveFile" text="Save" />
+                  <MenuItem mnemonicParsing="false" onAction="#openHighScore" text="High scores" />
               <MenuItem mnemonicParsing="false" onAction="#ExitFile" text="Exit" />
             </items>
           </Menu>

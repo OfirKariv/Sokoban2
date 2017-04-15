@@ -4,6 +4,7 @@ import java.beans.XMLDecoder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -18,9 +19,13 @@ import common.Level;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Dialog;
@@ -322,5 +327,40 @@ public class MainWindowController extends Observable implements Initializable, V
 			return min + " : " + sec;
 
 	}
+
+	public void openHighScore(ActionEvent event) throws IOException {
+		try {
+			FXMLLoader loader = new FXMLLoader((getClass().getResource("./Sample.fxml")));
+			Parent root = (Parent) loader.load();
+			Stage stage = new Stage();
+			stage.setTitle("High scores");
+			stage.setScene(new Scene(root));
+			stage.show();
+			/*
+			 * Canvas canvas = new Canvas(); canvas.setOnMouseEntered((event) ->
+			 * { try { // stage.show(); ///////////////////////////// FXMLLoader
+			 * loader = new FXMLLoader();
+			 * loader.setLocation(getClass().getResource("Sample.fxml"));
+			 * 
+			 * Scene scene; scene = new Scene(loader.load(), 600, 500);
+			 * 
+			 * stage.setScene(scene); System.out.println("hi"); stage.show();
+			 */
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	// BorderPane root = (BorderPane) loader.load();
+
+	// SampleController view = loader.getController();
+	// view.setStage(stage);
+
+	// Scene scene = new Scene(loader.load(), 600, 400);
+	// scene.getStylesheets().add(getClass().getResource("application1.css").toExternalForm());
+	// stage.setScene(scene);
+	// init(view);///to create table
+	// Button b = new Button("time");
+	// stage.setScene(scene);
 
 }
