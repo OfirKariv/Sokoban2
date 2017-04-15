@@ -19,12 +19,10 @@ import common.Level;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
@@ -32,6 +30,7 @@ import javafx.scene.control.Dialog;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
@@ -233,7 +232,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		Optional<String> result = dialog.showAndWait();
 		if (result.isPresent()) {
 			params.add("Db");
-			params.add(result.get());
+			params.add(result.get());// The user name
 			params.add(count.toString());
 			params.add(stepsCounter.getText());
 
@@ -328,12 +327,14 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	}
 
-	public void openHighScore(ActionEvent event) throws IOException {
+	public void openHighScore() {
+
 		try {
-			FXMLLoader loader = new FXMLLoader((getClass().getResource("./Sample.fxml")));
-			Parent root = (Parent) loader.load();
+			FXMLLoader loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
+
 			Stage stage = new Stage();
 			stage.setTitle("High scores");
+			BorderPane root = (BorderPane) loader.load();
 			stage.setScene(new Scene(root));
 			stage.show();
 			/*
@@ -346,6 +347,7 @@ public class MainWindowController extends Observable implements Initializable, V
 			 * 
 			 * stage.setScene(scene); System.out.println("hi"); stage.show();
 			 */
+
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

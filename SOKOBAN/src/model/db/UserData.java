@@ -26,6 +26,18 @@ public class UserData {
 	@Column(name = "steps")
 	private int steps;
 
+	public UserData(long user, long level) {
+
+		this.userID = user;
+		this.levelID = level;
+	}
+
+	public UserData(UserData ud) {
+		this.userID = ud.getUserID();
+		this.levelID = ud.getLevelID();
+
+	}
+
 	public long getUserID() {
 		return userID;
 	}

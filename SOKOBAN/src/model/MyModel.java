@@ -7,6 +7,7 @@ import java.util.Observable;
 import common.Level;
 import model.data.GameCharacter;
 import model.data.Position;
+import model.db.HbrntDBManager;
 import model.db.LevelInfo;
 import model.db.User;
 import model.db.UserData;
@@ -17,9 +18,9 @@ public class MyModel extends Observable implements Model {
 	private Level myLevel = null;
 	private LevelChanger change = new LevelChanger();
 	private int relevantPlayer;
-	private User dbUser;
-	private UserData dbData;
-	private LevelInfo dbLevel;
+	private User user;
+	private UserData ud;
+	private LevelInfo level;
 
 	public MyModel() {
 		myLevel = new Level();
@@ -66,7 +67,7 @@ public class MyModel extends Observable implements Model {
 	///////////////////////////////
 	@Override
 	public void saveToDB(List<String> params) {
-		dbData = new UserData();
+
 		if (params != null) {
 			for (int i = 0; i < 3; i++)
 				if (params.get(i) == null) {
@@ -75,12 +76,20 @@ public class MyModel extends Observable implements Model {
 				}
 
 			String name = params.remove(0);
-			dbUser = new User(name);
+			user = new User(name);
+			level = new LevelInfo(myLevel.getLevelName());
+			System.out.println(user.getUserID());
+			System.out.println(level.getLevelID());
+			ud = new UserData(user.getUserID(), level.getLevelID());
 			String steps = params.remove(0);
-			dbData.setSteps(Integer.parseInt(steps));
+			ud.setSteps(Integer.parseInt(steps));
 			String time = params.remove(0);
-			dbData.setTimeFinished(Integer.parseInt(time));
-			dbLevel = new LevelInfo(myLevel.getLevelName());
+			ud.setTimeFinished(Integer.parseInt(time));
+
+			HbrntDBManager db = new HbrntDBManager();
+			db.addUser(user);
+			db.addLevel(level);
+			db.addUserData(ud);
 
 		}
 
