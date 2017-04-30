@@ -48,9 +48,11 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 
-		if (args.length > 0) {
-			if (args[0].equals("--server")) {
+		System.out.println("ghfhgf");
 
+		if (args.length > 0) {
+
+			if (args[0].equals("--server")) {
 				MyClientHandler clientHndlr = new MyClientHandler();// view
 				controller.server.Server server = new controller.server.Server();
 				MyModel model = new MyModel();// model

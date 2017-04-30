@@ -71,7 +71,7 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		timeProp = new SimpleStringProperty();
 		levelDisplayer.setLevelData(levelData);
-		setMusic();
+		// setMusic();
 		setKeys();
 		levelDisplayer.setImageHashMap();
 		levelDisplayer.setFirstScreen();
@@ -194,7 +194,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	@Override
 	public void DisplayMess(String s) {
 
-		Thread thread = new Thread(new Runnable() {
+		Platform.runLater(new Runnable() {
 
 			@Override
 			public void run() {
@@ -214,7 +214,6 @@ public class MainWindowController extends Observable implements Initializable, V
 				}
 			}
 		});
-		Platform.runLater(thread);
 
 	}
 
