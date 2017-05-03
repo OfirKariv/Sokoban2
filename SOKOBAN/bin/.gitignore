@@ -1,10 +1,9 @@
 /boot/
 /common/
 /controller/
-/model/
-/spatial/
-/sqljdbc42.jar
-/view/
-/hibernate.cfg.xml
-/sqljdbc_auth.dll
 /db/
+/hibernate.cfg.xml
+/model/
+/sqljdbc_auth.dll
+/view/
+/levelsExample/

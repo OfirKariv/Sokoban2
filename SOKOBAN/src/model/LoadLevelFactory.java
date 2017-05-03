@@ -2,6 +2,7 @@ package model;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import common.Level;
@@ -25,10 +26,15 @@ public class LoadLevelFactory {
 
 	public Level toFile(String path) {
 
+		System.out.println(path);
+		System.out.println("********");
 		Level myLevel = new Level();
 		String[] args = path.split("\\.");
 
 		try {
+
+			System.out.println(args[1]);
+			System.out.println(path);
 			myLevel = fileType.get(args[1]).loadLevel(new FileInputStream(path));
 
 		} catch (ClassNotFoundException | IOException e) {

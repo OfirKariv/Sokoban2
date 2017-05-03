@@ -48,8 +48,6 @@ public class Main extends Application {
 
 	public static void main(String[] args) {
 
-		System.out.println("ghfhgf");
-
 		if (args.length > 0) {
 
 			if (args[0].equals("--server")) {
