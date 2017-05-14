@@ -47,7 +47,36 @@ public class HbrntDBManager implements DBManager {
 		return DBdata;
 	}
 
+	public boolean searchInUserTable(String value) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		// List<DbObject> DBdata = new LinkedList<>();
+
+		tx = session.beginTransaction();
+		List<User> userDB = session.createQuery("from users").list();
+		/*
+		 * for (Iterator iterator = fromDB.iterator(); iterator.hasNext();) {
+		 * 
+		 * User db = (User) iterator.next(); if();
+		 * 
+		 * }
+		 */
+		for (User us : userDB) {
+			if (us.getUsername().equals(value)) {
+				session.close();
+				return true;
+			}
+
+		}
+		// System.out.println(DBdata.toString());
+		session.close();
+		return false;
+	}
+
 	public void addUser(String name) {
+
+		if (searchInUserTable(name) == true)
+			return;
 
 		User user = new User(name);
 
