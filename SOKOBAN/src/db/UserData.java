@@ -10,11 +10,11 @@ import javax.persistence.OneToMany;
 
 public class UserData extends DbObject {
 	@Id
-	@JoinColumn(name = "UserID")
-	private long userID;
+	@JoinColumn(name = "UserName")
+	private String userName;
 
 	@JoinColumn(name = "LevelID")
-	private long levelID;
+	private int levelID;
 
 	@Column(name = "TimeFinished")
 	private long timeFinished;
@@ -22,31 +22,32 @@ public class UserData extends DbObject {
 	@Column(name = "steps")
 	private int steps;
 
-	public UserData(long user, long level) {
+	public UserData() {
+	};
 
-		this.userID = user;
-		this.levelID = level;
+	public UserData(String userName, int lvlID, int stepCount, int timer) {
+
+		this.userName = userName;
+		this.levelID = lvlID;
+		this.steps = stepCount;
+		this.timeFinished = timer;
 	}
 
 	public UserData(UserData ud) {
-		this.userID = ud.getUserID();
+		this.userName = ud.getUserName();
 		this.levelID = ud.getLevelID();
 
 	}
 
-	public long getUserID() {
-		return userID;
+	public String getUserName() {
+		return userName;
 	}
 
-	public void setUserID(long userID) {
-		this.userID = userID;
-	}
-
-	public long getLevelID() {
+	public int getLevelID() {
 		return levelID;
 	}
 
-	public void setLevelID(long levelID) {
+	public void setLevelID(int levelID) {
 		this.levelID = levelID;
 	}
 
@@ -64,6 +65,11 @@ public class UserData extends DbObject {
 
 	public void setSteps(int steps) {
 		this.steps = steps;
+	}
+
+	public String toString() {
+
+		return "[UserName: " + userName + ", Level: " + levelID + ", steps: " + steps + ", time: " + timeFinished + "]";
 	}
 
 }

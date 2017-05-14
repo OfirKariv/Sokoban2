@@ -7,7 +7,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Observable;
 
+import org.hibernate.query.Query;
+
 import common.Level;
+import db.DBManager;
 import db.HbrntDBManager;
 import db.LevelInfo;
 import db.User;
@@ -24,6 +27,7 @@ public class MyModel extends Observable implements Model {
 	private User user;
 	private UserData ud;
 	private LevelInfo level;
+	private DBManager db;
 
 	public MyModel() {
 		myLevel = new Level();
@@ -77,25 +81,35 @@ public class MyModel extends Observable implements Model {
 					/* TODO - add error displayer */
 
 				}
-
+			int lvlID, steps, time;
+			db = new HbrntDBManager();
 			String name = params.remove(0);
-			user = new User(name);
-			level = new LevelInfo(myLevel.getLevelName());
-			System.out.println(user.getUserID());
-			System.out.println(level.getLevelID());
-			ud = new UserData(user.getUserID(), level.getLevelID());
-			String steps = params.remove(0);
-			ud.setSteps(Integer.parseInt(steps));
-			String time = params.remove(0);
-			ud.setTimeFinished(Integer.parseInt(time));
+			// add user to DBManager
+			db.addUser(name);
 
-			HbrntDBManager db = new HbrntDBManager();
-			db.addUser(user);
-			db.addLevel(level);
-			db.addUserData(ud);
+			// Add Level to DBManager
+
+			lvlID = db.addLevel(myLevel.getLevelName());
+
+			// Add userData
+
+			String timeStr = params.remove(0);
+			time = Integer.parseInt(timeStr);
+			String stepsStr = params.remove(0);
+			steps = Integer.parseInt(stepsStr);
+
+			db.addUserData(name, lvlID, steps, time);
 
 		}
+	}
 
+	public Query<UserData> getFromDB() {
+
+		if (db == null)
+			return null;
+
+		db.getTable(myLevel.getLevelName());
+		return null;
 	}
 
 	@Override

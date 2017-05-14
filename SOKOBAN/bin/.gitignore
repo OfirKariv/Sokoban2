@@ -1,7 +1,4 @@
-/sqljdbc_auth.dll
 /boot/
-/common/
-/controller/
+/view/
 /db/
 /model/
-/view/

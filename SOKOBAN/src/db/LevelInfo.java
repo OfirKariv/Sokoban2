@@ -10,23 +10,28 @@ import javax.persistence.Id;
 public class LevelInfo extends DbObject {
 
 	public LevelInfo(String s) {
+
 		setLevelName(s);
+	}
+
+	public LevelInfo() {
 	}
 
 	@Id
 	@Column(name = "LevelID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private long levelID;
+	private int levelID;
 
 	@Column(name = "LevelName")
 	private String levelName;
 
-	public long getLevelID() {
+	public int getLevelID() {
 		return levelID;
 	}
 
-	public void setLevelID(long levelID) {
+	public void setLevelID(int levelID) {
 		this.levelID = levelID;
+
 	}
 
 	public String getLevelName() {
@@ -35,6 +40,13 @@ public class LevelInfo extends DbObject {
 
 	public void setLevelName(String levelName) {
 		this.levelName = levelName;
+
+	}
+
+	public String toString() {
+
+		return "[Level: " + levelID + "]";
+
 	}
 
 }

@@ -37,9 +37,10 @@ public class SampleController {
 
 		// MainWindowController mw = new MainWindowController();
 
-		List fromDB = hbrnet.getTable("select * from users");
+		List fromDB = hbrnet.getTable("from user_data");
 
 		ObservableList<DbObject> data = new ObservableListWrapper<DbObject>(fromDB);
+		System.out.println(data.toString());
 
 		// getDataFromDB
 		createTable(data);
@@ -69,13 +70,13 @@ public class SampleController {
 		table.setEditable(true);
 
 		TableColumn NameCol = new TableColumn("Name");
-		NameCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("Name"));
+		NameCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("UserName"));
 
 		TableColumn levelCol = new TableColumn("level");
-		levelCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("level"));
+		levelCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("LevelID"));
 
 		TableColumn timeCol = new TableColumn("time");
-		timeCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("time"));
+		timeCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("TimeFinished"));
 
 		TableColumn stepsCol = new TableColumn("steps");
 		stepsCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("steps"));
