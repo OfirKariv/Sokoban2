@@ -6,6 +6,7 @@ import java.util.List;
 import com.sun.javafx.collections.ObservableListWrapper;
 
 import db.DbObject;
+import db.HbrntDBManager;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
@@ -14,6 +15,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -21,8 +23,11 @@ import view.MainWindowController;
 import view.View;
 
 public class SampleController {
-	private View view = null;
+	private HbrntDBManager hbrnet = null;
 
+	public SampleController() {
+		hbrnet = new HbrntDBManager();
+	}
 	// somthing to conect with sql
 
 	public void sortBySteps() {
@@ -30,8 +35,9 @@ public class SampleController {
 		// send a query to database
 		// getting list <string> and show it in table
 
-		MainWindowController mw = new MainWindowController();
-		List fromDB = mw.getDataFromDB("select * from user");
+		// MainWindowController mw = new MainWindowController();
+
+		List fromDB = hbrnet.getTable("select * from users");
 
 		ObservableList<DbObject> data = new ObservableListWrapper<DbObject>(fromDB);
 
@@ -63,9 +69,17 @@ public class SampleController {
 		table.setEditable(true);
 
 		TableColumn NameCol = new TableColumn("Name");
+		NameCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("Name"));
+
 		TableColumn levelCol = new TableColumn("level");
+		levelCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("level"));
+
 		TableColumn timeCol = new TableColumn("time");
+		timeCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("time"));
+
 		TableColumn stepsCol = new TableColumn("steps");
+		stepsCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("steps"));
+
 		table.setItems(data);
 
 		table.getColumns().addAll(NameCol, levelCol, timeCol, stepsCol);

@@ -246,6 +246,7 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	}
 
+	//////////////////////////////////////////////
 	// this is sposed to be apllay from one of the opsions do dispaly sort in
 	// highscore window
 	public List<DbObject> getDataFromDB(String query) {
@@ -258,6 +259,7 @@ public class MainWindowController extends Observable implements Initializable, V
 		return paramsDB;
 	}
 
+	/////////////////////////////////////////////////////////////
 	@Override
 	public void stop() {
 		timeStop();
