@@ -15,10 +15,14 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import boot.SampleController;
 import common.Level;
+import db.DbObject;
+import db.HbrntDBManager;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -242,6 +246,18 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	}
 
+	// this is sposed to be apllay from one of the opsions do dispaly sort in
+	// highscore window
+	public List<DbObject> getDataFromDB(String query) {
+		List<DbObject> paramsDB = new LinkedList<DbObject>();
+		HbrntDBManager hbrnet = new HbrntDBManager();
+		paramsDB = hbrnet.getTable(query);
+
+		// setChanged();
+		// notifyObservers(paramsDB);
+		return paramsDB;
+	}
+
 	@Override
 	public void stop() {
 		timeStop();
@@ -336,16 +352,6 @@ public class MainWindowController extends Observable implements Initializable, V
 			BorderPane root = (BorderPane) loader.load();
 			stage.setScene(new Scene(root));
 			stage.show();
-			/*
-			 * Canvas canvas = new Canvas(); canvas.setOnMouseEntered((event) ->
-			 * { try { // stage.show(); ///////////////////////////// FXMLLoader
-			 * loader = new FXMLLoader();
-			 * loader.setLocation(getClass().getResource("Sample.fxml"));
-			 * 
-			 * Scene scene; scene = new Scene(loader.load(), 600, 500);
-			 * 
-			 * stage.setScene(scene); System.out.println("hi"); stage.show();
-			 */
 
 		} catch (IOException e) {
 			// TODO Auto-generated catch block

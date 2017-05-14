@@ -1,5 +1,7 @@
 package db;
 
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -10,14 +12,30 @@ import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
 import org.hibernate.cfg.Configuration;
 
+import com.sun.corba.se.impl.naming.pcosnaming.NameServer;
+
 public class HbrntDBManager implements DBManager {
 
 	private SessionFactory factory;
 
 	@Override
-	public List<String> getTable(String s) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<DbObject> getTable(String s) {
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<DbObject> DBdata = new LinkedList<>();
+		//////////// s=select * from users
+		tx = session.beginTransaction();
+		List fromDB = session.createQuery(s).list();
+		for (Iterator iterator = fromDB.iterator(); iterator.hasNext();) {
+
+			DbObject db = (DbObject) iterator.next();
+			DBdata.add(db);
+
+			// System.out.print(" Name: " + player.getUsername());
+			// System.out.println(" ID: " + employee.getId());
+		}
+
+		return DBdata;
 	}
 
 	public HbrntDBManager() {

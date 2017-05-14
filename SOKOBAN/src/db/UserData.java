@@ -8,7 +8,7 @@ import javax.persistence.OneToMany;
 
 @Entity(name = "user_data")
 
-public class UserData {
+public class UserData extends DbObject {
 	@Id
 	@JoinColumn(name = "UserID")
 	private long userID;

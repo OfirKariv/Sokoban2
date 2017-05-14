@@ -7,7 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "level")
-public class LevelInfo {
+public class LevelInfo extends DbObject {
 
 	public LevelInfo(String s) {
 		setLevelName(s);

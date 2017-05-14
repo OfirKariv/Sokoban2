@@ -8,7 +8,7 @@ import javax.persistence.Id;
 
 @Entity(name = "users")
 
-public class User {
+public class User extends DbObject {
 
 	public User(String name) {
 		setUsername(name);
