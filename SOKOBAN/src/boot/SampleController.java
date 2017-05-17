@@ -37,10 +37,10 @@ public class SampleController {
 
 		// MainWindowController mw = new MainWindowController();
 
-		List fromDB = hbrnet.getTable("from user_data");
+		LinkedList<DbObject> fromDB = (LinkedList<DbObject>) hbrnet.getTable("from user_data");
 
 		ObservableList<DbObject> data = new ObservableListWrapper<DbObject>(fromDB);
-		System.out.println(data.toString());
+		// System.out.println(data.toString());
 
 		// getDataFromDB
 		createTable(data);

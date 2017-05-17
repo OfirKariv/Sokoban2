@@ -33,18 +33,20 @@ public class HbrntDBManager implements DBManager {
 		Session session = factory.openSession();
 		Transaction tx = null;
 		List<DbObject> DBdata = new LinkedList<>();
-
 		tx = session.beginTransaction();
-		List fromDB = session.createQuery(s).list();
-		for (Iterator iterator = fromDB.iterator(); iterator.hasNext();) {
+		Query<DbObject> temp = session.createQuery("from user_data");
+		tx.commit();
 
-			DbObject db = (DbObject) iterator.next();
+		List<DbObject> fromDB = temp.list();
+		System.out.println(fromDB.toString());
+
+		for (DbObject db : fromDB) {
 			DBdata.add(db);
 
 		}
-
-		System.out.println(DBdata.toString());
+		session.close();
 		return DBdata;
+
 	}
 
 	public boolean searchInUserTable(String value) {
@@ -131,11 +133,13 @@ public class HbrntDBManager implements DBManager {
 		try {
 			Query<LevelInfo> query = session.createQuery("from level");
 			List<LevelInfo> list = query.list();
-			System.out.println(name);
+
 			for (LevelInfo li : list) {
 				{
 					if (li.getLevelName().equals(name)) {
-						return li.getLevelID();
+						int id = li.getLevelID();
+						session.close();
+						return id;
 					}
 
 				}
@@ -146,7 +150,7 @@ public class HbrntDBManager implements DBManager {
 		} finally {
 			session.close();
 		}
-
+		System.out.println("do we get here?");
 		return -1;
 	}
 

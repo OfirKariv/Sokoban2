@@ -1,20 +1,21 @@
 package db;
 
 import javax.persistence.Column;
+import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 
 @Entity(name = "user_data")
 
 public class UserData extends DbObject {
-	@Id
-	@JoinColumn(name = "UserName")
-	private String userName;
+	// @Id
+	// @JoinColumn(name = "UserName")
+	// private String userName;
 
-	@JoinColumn(name = "LevelID")
-	private int levelID;
+	// @JoinColumn(name = "LevelID")
+	// private int levelID;
+
+	@EmbeddedId
+	private UserLevelKey key;
 
 	@Column(name = "TimeFinished")
 	private long timeFinished;
@@ -27,28 +28,28 @@ public class UserData extends DbObject {
 
 	public UserData(String userName, int lvlID, int stepCount, int timer) {
 
-		this.userName = userName;
-		this.levelID = lvlID;
+		super();
+		this.key = new UserLevelKey(userName, lvlID);
 		this.steps = stepCount;
 		this.timeFinished = timer;
 	}
 
 	public UserData(UserData ud) {
-		this.userName = ud.getUserName();
-		this.levelID = ud.getLevelID();
+		this.key.setUserName(ud.getUserName());
+		this.key.setLevelID(ud.getLevelID());
 
 	}
 
 	public String getUserName() {
-		return userName;
+		return key.getUserName();
 	}
 
 	public int getLevelID() {
-		return levelID;
+		return key.getLevelID();
 	}
 
 	public void setLevelID(int levelID) {
-		this.levelID = levelID;
+		this.key.setLevelID(levelID);
 	}
 
 	public long getTimeFinished() {
@@ -69,7 +70,8 @@ public class UserData extends DbObject {
 
 	public String toString() {
 
-		return "[UserName: " + userName + ", Level: " + levelID + ", steps: " + steps + ", time: " + timeFinished + "]";
+		return "[UserName: " + key.getUserName() + ", Level: " + key.getLevelID() + ", steps: " + steps + ", time: "
+				+ timeFinished + "]";
 	}
 
 }
