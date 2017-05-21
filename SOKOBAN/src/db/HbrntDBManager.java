@@ -48,6 +48,29 @@ public class HbrntDBManager implements DBManager {
 
 	}
 
+	public int LevelNameToID(String name) {
+
+		if (name.isEmpty())
+			return 0;
+		Session session = factory.openSession();
+		Transaction tx = null;
+		List<LevelInfo> LevelInfo = new LinkedList<LevelInfo>();
+		tx = session.beginTransaction();
+		Query<LevelInfo> temp = session.createQuery("from level where LevelName = '" + name + "'");
+
+		if (temp != null)
+			System.out.println("temp!=null");
+		tx.commit();
+
+		List<LevelInfo> fromDB = temp.list();
+
+		int x = fromDB.get(0).getLevelID();
+		session.close();
+		System.out.println(x);
+		return x;
+
+	}
+
 	public boolean searchInUserTable(String value) {
 		Session session = factory.openSession();
 		Transaction tx = null;

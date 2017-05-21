@@ -4,7 +4,6 @@ import java.beans.XMLDecoder;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -17,32 +16,32 @@ import java.util.TimerTask;
 
 import com.sun.javafx.collections.ObservableListWrapper;
 
-import boot.SampleController;
 import common.Level;
 import db.DbObject;
 import db.HbrntDBManager;
+import db.LevelInfo;
+import db.UserData;
 import javafx.application.Platform;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 import javafx.collections.ObservableList;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.geometry.Insets;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Dialog;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableRow;
 import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
@@ -66,6 +65,7 @@ public class MainWindowController extends Observable implements Initializable, V
 	private int min = 0;
 	private Integer count = 0;
 	private boolean start = false;
+	private String levelPath = new String();
 
 	private Timer timer;
 
@@ -158,7 +158,8 @@ public class MainWindowController extends Observable implements Initializable, V
 		File chosen = fc.showOpenDialog(stage);
 		if (chosen != null) {
 			params.add("Load");
-			params.add(chosen.getAbsolutePath());
+			levelPath = chosen.getAbsolutePath();
+			params.add(levelPath);
 			setParams(params);
 			setChanged();
 			notifyObservers(params);
@@ -358,7 +359,9 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void openHighScore() {
 
-		LinkedList<DbObject> fromDB = (LinkedList<DbObject>) hbrnet.getTable("from user_data");
+		int x = hbrnet.LevelNameToID(levelPath);
+		LinkedList<DbObject> fromDB = (LinkedList<DbObject>) hbrnet
+				.getTable("from user_data where LevelID = '" + x + "'");
 
 		ObservableList<DbObject> data = new ObservableListWrapper<DbObject>(fromDB);
 		// System.out.println(data.toString());
@@ -398,6 +401,66 @@ public class MainWindowController extends Observable implements Initializable, V
 		TableColumn NameCol = new TableColumn("Name");
 		NameCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("UserName"));
 
+		// TableColumn levelCol = new TableColumn("level");
+		// levelCol.setCellValueFactory(new PropertyValueFactory<DbObject,
+		// String>("LevelID"));
+
+		TableColumn timeCol = new TableColumn("time");
+		timeCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("TimeFinished"));
+
+		TableColumn stepsCol = new TableColumn("steps");
+		stepsCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("steps"));
+
+		table.setItems(data);
+
+		table.getColumns().addAll(NameCol, timeCol, stepsCol);
+
+		table.setRowFactory(tv -> {
+			TableRow<UserData> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+
+					UserData rowData = row.getItem();
+					createTableByName(rowData.getUserName());
+
+				}
+
+			});
+
+			return row;
+		});
+
+		final VBox vbox = new VBox();
+		vbox.setSpacing(5);
+		vbox.setPadding(new Insets(10, 0, 0, 10));
+		vbox.getChildren().addAll(label, table);
+
+		((Group) scene.getRoot()).getChildren().addAll(vbox);
+
+		stage.setScene(scene);
+		stage.show();
+
+	}
+
+	public void createTableByName(String name) {
+
+		LinkedList<DbObject> fromDB = (LinkedList<DbObject>) hbrnet
+				.getTable("from user_data where username = '" + name + "'");
+
+		ObservableList<DbObject> data = new ObservableListWrapper<DbObject>(fromDB);
+
+		Stage stage = new Stage();
+		TableView table = new TableView();
+		Scene scene = new Scene(new Group());
+		stage.setTitle(name + " ");
+		stage.setWidth(300);
+		stage.setHeight(300);
+
+		final Label label = new Label(name);
+		label.setFont(new Font("Arial", 20));
+
+		table.setEditable(true);
+
 		TableColumn levelCol = new TableColumn("level");
 		levelCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("LevelID"));
 
@@ -409,7 +472,22 @@ public class MainWindowController extends Observable implements Initializable, V
 
 		table.setItems(data);
 
-		table.getColumns().addAll(NameCol, levelCol, timeCol, stepsCol);
+		table.getColumns().addAll(levelCol, timeCol, stepsCol);
+
+		table.setRowFactory(tv -> {
+			TableRow<UserData> row = new TableRow<>();
+			row.setOnMouseClicked(event -> {
+				if (event.getClickCount() == 2 && (!row.isEmpty())) {
+
+					UserData rowData = row.getItem();
+					createTableByName(rowData.getUserName());
+
+				}
+
+			});
+
+			return row;
+		});
 
 		final VBox vbox = new VBox();
 		vbox.setSpacing(5);

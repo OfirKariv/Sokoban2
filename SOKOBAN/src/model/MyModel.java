@@ -88,8 +88,8 @@ public class MyModel extends Observable implements Model {
 			db.addUser(name);
 
 			// Add Level to DBManager
-
-			lvlID = db.addLevel(myLevel.getLevelName());
+			String levelName = myLevel.getLevelName();
+			lvlID = db.addLevel(levelName);
 
 			// Add userData
 
