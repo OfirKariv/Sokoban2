@@ -99,19 +99,18 @@ public class MyModel extends Observable implements Model {
 			steps = Integer.parseInt(stepsStr);
 
 			db.addUserData(name, lvlID, steps, time);
+			db.stop();
 
 		}
 	}
 
-	public Query<UserData> getFromDB() {
-
-		if (db == null)
-			return null;
-
-		db.getTable(myLevel.getLevelName());
-		return null;
-	}
-
+	/*
+	 * public Query<UserData> getFromDB() {
+	 * 
+	 * if (db == null) return null;
+	 * 
+	 * db.getTable(myLevel.getLevelName()); return null; }
+	 */
 	@Override
 	public void move(String direction) {
 

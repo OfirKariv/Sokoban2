@@ -34,11 +34,10 @@ public class HbrntDBManager implements DBManager {
 		Transaction tx = null;
 		List<DbObject> DBdata = new LinkedList<>();
 		tx = session.beginTransaction();
-		Query<DbObject> temp = session.createQuery("from user_data");
+		Query<DbObject> temp = session.createQuery(s);
 		tx.commit();
 
 		List<DbObject> fromDB = temp.list();
-		System.out.println(fromDB.toString());
 
 		for (DbObject db : fromDB) {
 			DBdata.add(db);

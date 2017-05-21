@@ -15,6 +15,8 @@ import java.util.ResourceBundle;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import com.sun.javafx.collections.ObservableListWrapper;
+
 import boot.SampleController;
 import common.Level;
 import db.DbObject;
@@ -27,17 +29,25 @@ import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.control.Dialog;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.TextInputDialog;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
+import javafx.scene.text.Font;
 import javafx.scene.text.Text;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -69,9 +79,11 @@ public class MainWindowController extends Observable implements Initializable, V
 	private List<String> params;
 	private List<String> filesType;
 	private HashMap<String, String> keyHM;
+	private HbrntDBManager hbrnet = null;
 
 	@Override
 	public void initialize(URL location, ResourceBundle resources) {
+		hbrnet = new HbrntDBManager();
 
 		timeProp = new SimpleStringProperty();
 		levelDisplayer.setLevelData(levelData);
@@ -346,20 +358,72 @@ public class MainWindowController extends Observable implements Initializable, V
 
 	public void openHighScore() {
 
-		try {
-			FXMLLoader loader = new FXMLLoader(getClass().getResource("Sample.fxml"));
+		LinkedList<DbObject> fromDB = (LinkedList<DbObject>) hbrnet.getTable("from user_data");
 
-			Stage stage = new Stage();
-			stage.setTitle("High scores");
-			BorderPane root = (BorderPane) loader.load();
-			stage.setScene(new Scene(root));
-			stage.show();
+		ObservableList<DbObject> data = new ObservableListWrapper<DbObject>(fromDB);
+		// System.out.println(data.toString());
 
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
+		// getDataFromDB
+		createTable(data);
+
+		////////////////////////////////////////////////////////////////////////////
+		/*
+		 * try { FXMLLoader loader = new
+		 * FXMLLoader(getClass().getResource("Sample.fxml"));
+		 * 
+		 * Stage stage = new Stage(); stage.setTitle("High scores"); BorderPane
+		 * root = (BorderPane) loader.load(); stage.setScene(new Scene(root));
+		 * stage.show();
+		 * 
+		 * } catch (IOException e) { // TODO Auto-generated catch block
+		 * e.printStackTrace(); }
+		 */
+		//////////////////////////////////////////////////////////////////////
+
 	}
+
+	public void createTable(ObservableList<DbObject> data) {
+		Stage stage = new Stage();
+		TableView table = new TableView();
+		Scene scene = new Scene(new Group());
+		stage.setTitle("High score ");
+		stage.setWidth(500);
+		stage.setHeight(500);
+
+		final Label label = new Label("high score");
+		label.setFont(new Font("Arial", 20));
+
+		table.setEditable(true);
+
+		TableColumn NameCol = new TableColumn("Name");
+		NameCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("UserName"));
+
+		TableColumn levelCol = new TableColumn("level");
+		levelCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("LevelID"));
+
+		TableColumn timeCol = new TableColumn("time");
+		timeCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("TimeFinished"));
+
+		TableColumn stepsCol = new TableColumn("steps");
+		stepsCol.setCellValueFactory(new PropertyValueFactory<DbObject, String>("steps"));
+
+		table.setItems(data);
+
+		table.getColumns().addAll(NameCol, levelCol, timeCol, stepsCol);
+
+		final VBox vbox = new VBox();
+		vbox.setSpacing(5);
+		vbox.setPadding(new Insets(10, 0, 0, 10));
+		vbox.getChildren().addAll(label, table);
+
+		((Group) scene.getRoot()).getChildren().addAll(vbox);
+
+		stage.setScene(scene);
+		stage.show();
+
+	}
+
+	//////////////////////////////////////////////////////////////////////
 	// BorderPane root = (BorderPane) loader.load();
 
 	// SampleController view = loader.getController();
