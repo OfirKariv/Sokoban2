@@ -39,10 +39,7 @@ public class Bfs<T> extends CommonSearcher<T> {
 				}
 
 				else {
-					if (!openList.contains(state)) {
-						// addToOpenList(state);
-
-					} else {
+					if (openList.contains(state)) {
 						State<T> temp = state;
 						openList.remove(state);
 						addToOpenList(temp);

@@ -19,7 +19,7 @@ public class tester {
 		try {
 			Level level = lvlLoad.loadLevel(new FileInputStream("C:/Users/ofirk/Desktop/SIMPLE.txt"));
 			Position init = level.getCharacters().get(0).getPosition();
-			Position goal = new Position(0, 5);
+			Position goal = new Position(7, 13);
 
 			Searcher<Position> searcher = new Bfs<Position>();
 			// or any Searchable
@@ -29,11 +29,11 @@ public class tester {
 			// see the actions
 			if (actions == null)
 				System.out.println("no path");
-			else
-				for (Action a : actions) {
+			else {
+				for (Action a : actions)
 					System.out.println(a);
-					System.out.println("# of nodes evaluated " + searcher.getNumberOfNodesEvaluated());
-				}
+				System.out.println("# of nodes evaluated " + searcher.getNumberOfNodesEvaluated());
+			}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
