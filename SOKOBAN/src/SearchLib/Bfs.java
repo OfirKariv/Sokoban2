@@ -13,7 +13,7 @@ public class Bfs<T> extends CommonSearcher<T> {
 	public Bfs() {
 		super();
 		closedSet = new HashSet<State<T>>();
-
+		System.out.println("test");
 	}
 
 	@Override
