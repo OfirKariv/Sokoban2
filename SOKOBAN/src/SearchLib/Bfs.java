@@ -13,7 +13,7 @@ public class Bfs<T> extends CommonSearcher<T> {
 	public Bfs() {
 		super();
 		closedSet = new HashSet<State<T>>();
-		System.out.println("test");
+
 	}
 
 	@Override
@@ -40,7 +40,7 @@ public class Bfs<T> extends CommonSearcher<T> {
 
 				else {
 					if (!openList.contains(state)) {
-						addToOpenList(state);
+						// addToOpenList(state);
 
 					} else {
 						State<T> temp = state;
@@ -58,7 +58,7 @@ public class Bfs<T> extends CommonSearcher<T> {
 
 	}
 
-	public ArrayList<Action> backTrace(State goal, State start) {
+	protected ArrayList<Action> backTrace(State goal, State start) {
 
 		ArrayList<Action> actions = new ArrayList<>();
 		State<T> s = goal;

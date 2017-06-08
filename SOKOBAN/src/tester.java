@@ -27,10 +27,13 @@ public class tester {
 
 			ArrayList<Action> actions = searcher.search(searchable);
 			// see the actions
-			for (Action a : actions)
-				System.out.println(a);
-			System.out.println("# of nodes evaluated " + searcher.getNumberOfNodesEvaluated());
-
+			if (actions == null)
+				System.out.println("no path");
+			else
+				for (Action a : actions) {
+					System.out.println(a);
+					System.out.println("# of nodes evaluated " + searcher.getNumberOfNodesEvaluated());
+				}
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

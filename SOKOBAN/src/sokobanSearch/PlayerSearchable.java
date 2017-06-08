@@ -1,15 +1,13 @@
 package sokobanSearch;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 
 import SearchLib.Searchable;
 import SearchLib.State;
 import common.Level;
-import model.calc.MyTextLevelLoader;
 import model.data.Position;
 import model.policy.LevelChanger;
 
@@ -61,7 +59,8 @@ public class PlayerSearchable implements Searchable<Position> {
 
 	@Override
 	public List<State<Position>> getAllPossibleStates(State<Position> s) {
-		LevelChanger change = new LevelChanger();
+		HashSet<State<Position>> hs = new LinkedHashSet<>();
+		LevelChanger change = new LevelChanger(); // Policy
 		change.setLevel(this.getLevel());
 		ArrayList<State<Position>> list = new ArrayList<State<Position>>();
 		boolean up, down, left, right;
@@ -92,6 +91,7 @@ public class PlayerSearchable implements Searchable<Position> {
 			upState.setCost(s.getCost() + 1);
 			upState.setState(upPos);
 			upState.setAction(new Action("Move up"));
+			hs.add(upState);
 			list.add(upState);
 
 		}
@@ -102,6 +102,7 @@ public class PlayerSearchable implements Searchable<Position> {
 			downState.setCost(s.getCost() + 1);
 			downState.setState(downPos);
 			downState.setAction(new Action("Move down"));
+			hs.add(downState);
 			list.add(downState);
 		}
 
@@ -111,6 +112,7 @@ public class PlayerSearchable implements Searchable<Position> {
 			leftState.setCost(s.getCost() + 1);
 			leftState.setState(leftPos);
 			leftState.setAction(new Action("Move left"));
+			hs.add(leftState);
 			list.add(leftState);
 		}
 
@@ -120,6 +122,7 @@ public class PlayerSearchable implements Searchable<Position> {
 			rightState.setCost(s.getCost() + 1);
 			rightState.setState(rightPos);
 			rightState.setAction(new Action("Move right"));
+			hs.add(rightState);
 			list.add(rightState);
 		}
 
