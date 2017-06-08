@@ -213,4 +213,27 @@ public class LevelChanger {
 		return path;
 	}
 
+	public boolean isClear(Position p)
+
+	{
+
+		int x = p.getX();
+		int y = p.getY();
+		int limitX = (myLevel.getStaticPattern().size()) - 1;
+		int limitY = (myLevel.getStaticPattern().get(0).size()) - 1;
+
+		if ((x < 0) || (x > limitX) || (y < 0) || (y > limitY))
+			return false;
+
+		if (myLevel.getMovables().get(x).get(y) != null) {
+			return false;
+		}
+		if (myLevel.getStaticPattern().get(x).get(y) instanceof Floor
+				|| myLevel.getStaticPattern().get(x).get(y) instanceof Target) {
+			return true;
+		}
+		return false;
+
+	}
+
 }

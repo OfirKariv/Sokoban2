@@ -1,9 +1,10 @@
+/SearchLib/
 /boot/
 /common/
 /controller/
 /db/
-/hibernate.cfg.xml
 /model/
-/sqljdbc_auth.dll
-/view/
 /tester.class
+/view/
+/sokobanSearch/
+/testerTwo.class
