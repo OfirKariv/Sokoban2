@@ -3,8 +3,10 @@
 /common/
 /controller/
 /db/
+/hibernate.cfg.xml
 /model/
-/tester.class
-/view/
 /sokobanSearch/
+/sqljdbc_auth.dll
+/tester.class
 /testerTwo.class
+/view/
